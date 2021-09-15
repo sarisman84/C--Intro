@@ -30,3 +30,45 @@
 *.exe
 *.out
 *.app
+
+.vs/C\+\+Intro- Havardspel/v16/Browse.VC.db
+
+.vs/C\+\+Intro- Havardspel/v16/Browse.VC.db-shm
+
+.vs/C\+\+Intro- Havardspel/v16/Browse.VC.opendb
+
+.vs/C\+\+Intro- Havardspel/v16/ipch/AutoPCH/4e1190c7fd7473f3/HASARDSPEL.ipch
+
+Debug/C\+\+Intro- Havardspel.exe.recipe
+
+Debug/C\+\+Intro- Havardspel.ilk
+
+Debug/C\+\+Intro- Havardspel.log
+
+Debug/C\+\+Intro- Havardspel.pdb
+
+Debug/C\+\+Intro- Havardspel.vcxproj.FileListAbsolute.txt
+
+Debug/C\+\+Intro.1d240e28.tlog/C\+\+Intro- Havardspel.lastbuildstate
+
+Debug/C\+\+Intro.1d240e28.tlog/CL.command.1.tlog
+
+Debug/C\+\+Intro.1d240e28.tlog/CL.read.1.tlog
+
+Debug/C\+\+Intro.1d240e28.tlog/CL.write.1.tlog
+
+Debug/C\+\+Intro.1d240e28.tlog/link.command.1.tlog
+
+Debug/C\+\+Intro.1d240e28.tlog/link.read.1.tlog
+
+Debug/C\+\+Intro.1d240e28.tlog/link.write.1.tlog
+
+Debug/hasardspel.obj.enc
+
+Debug/vc142.idb
+
+Debug/vc142.pdb
+
+.vs/C\+\+Intro- Havardspel/v16/.suo
+
+.vs/C\+\+Intro- Havardspel/v16/Browse.VC.db-wal
