@@ -27,7 +27,7 @@ void PrintIntroduction()
 
 void PrintTutorial()
 {
-	std::cout << "The rules are simple! \n" << std::flush;
+	std::cout << "The rules are simple! \n\n" << std::flush;
 	system("pause");
 	system("CLS");
 	std::cout << "Simply write a number of your choice when asked. Once you have written down a number, two dice rolls will thrown! \n";
@@ -94,7 +94,7 @@ void OnGameRuntime()
 		}
 		case 10:
 			errorMessage = "Invalid Button Selection! Try again!";
-			std::cout << "Congratulations! You Won!\n";
+			std::cout << "Congratulations! You Won!\n\n";
 			std::cout << "1 - Play Again|-1 - Exit\n";
 			previousGameState = currentGameState;
 			currentGameState = ParseCommand(-1, 1);
@@ -125,10 +125,11 @@ int ParseCommand(int aMinInputValue, int aMaxInputValue)
 	int userInput;
 	std::cin >> userInput;
 
-	if (std::cin.bad())
+	if (std::cin.fail())
 	{
 		userInput = -1;
-		std::cin.ignore(1000);
+		std::cin.clear(); //Clears the stream buffer.
+		std::cin.ignore(1000); //Clears the input field.
 	}
 
 	if (userInput < aMinInputValue || userInput > aMaxInputValue)
