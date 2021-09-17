@@ -1,5 +1,5 @@
 #pragma once
-
+#include "Utility.h"
 namespace RollADice
 {
 	void PrintInstructions();

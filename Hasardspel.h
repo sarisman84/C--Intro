@@ -1,8 +1,10 @@
 #pragma once
+namespace Engine
+{
+	void PrintIntroduction();
+	void OnGameRuntime();
+}
 
-
-void PrintIntroduction();
-void OnGameRuntime();
 
 
 

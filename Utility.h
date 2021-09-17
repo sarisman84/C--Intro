@@ -1,7 +1,5 @@
 #pragma once
-#include <iostream>
-#include <stdlib.h>
-
+#include<iostream>
 namespace RuntimeManagement
 {
 
@@ -26,9 +24,15 @@ namespace RuntimeManagement
 
 	int GetUserInput(int aMinInputValue, int aMaxInputValue);
 	GameState GetGameStateFromInput(int someUserInput);
-	GameState currentGameState;
-	GameState previousGameState;
-	GameMode currentGameMode;
-	std::string errorMessage;
-	std::string currentGameModeName;
+
+	//The below variables NEED to have the extern keyword for the linker to work
+	//Source: https://stackoverflow.com/a/9702142/10483209
+
+	extern GameState currentGameState;
+	extern GameState previousGameState;
+	extern GameMode currentGameMode;
+	extern const char* errorMessage;
+	extern const char* currentGameModeName;
+
+	 
 }

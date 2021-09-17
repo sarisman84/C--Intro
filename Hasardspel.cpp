@@ -1,10 +1,5 @@
-
-
-#include <iostream>
 #include "Hasardspel.h"
 #include"RollADice.h"
-#include "Utility.h"
-#include <stdlib.h>
 
 
 /*
@@ -20,11 +15,11 @@
 
 */
 
+namespace game = RuntimeManagement;
 
 
 
-
-void PrintIntroduction()
+void Engine::PrintIntroduction()
 {
 	std::cout << "Welcome to Scuffed Enjoyment AB's Casino Plaza, a place full of enjoyment and profit! \n";
 	std::cout << "Here you can play our wonderful gambling game to earn rewards! \n\n" << std::flush;
@@ -44,14 +39,14 @@ void PrintIntroduction()
 //
 //}
 
-namespace game = RuntimeManagement;
 
 
 
 
 
 
-void OnGameRuntime()
+
+void Engine::OnGameRuntime()
 {
 
 	game::currentGameState = game::GameState::Start;
@@ -99,5 +94,5 @@ void OnGameRuntime()
 
 int main()
 {
-	OnGameRuntime();
+	Engine::OnGameRuntime();
 }
