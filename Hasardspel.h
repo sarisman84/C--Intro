@@ -1,8 +1,26 @@
 #pragma once
 
-void PrintIntroduction();
-void PrintTutorial();
 
+void PrintIntroduction();
 void OnGameRuntime();
-int ParseCommand(int aMinInputValue, int aMaxInputValue);
-int GenerateResult();
+
+
+
+
+
+//namespace Player
+//{
+//	int money;
+//}
+
+
+
+
+
+
+
+
+
+
+
+
