@@ -141,12 +141,12 @@
   <ItemGroup>
     <ClCompile Include="Hasardspel.cpp" />
     <ClCompile Include="RollADice.cpp" />
-    <ClCompile Include="Utility.cpp" />
+    <ClCompile Include="RuntimeManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Hasardspel.h" />
     <ClInclude Include="RollADice.h" />
-    <ClInclude Include="Utility.h" />
+    <ClInclude Include="RuntimeManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

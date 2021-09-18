@@ -18,7 +18,7 @@
     <ClCompile Include="Hasardspel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Utility.cpp">
+    <ClCompile Include="RuntimeManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="RollADice.cpp">
@@ -32,7 +32,7 @@
     <ClInclude Include="RollADice.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Utility.h">
+    <ClInclude Include="RuntimeManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

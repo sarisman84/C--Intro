@@ -19,6 +19,7 @@ namespace game = RuntimeManagement;
 
 
 
+
 void Engine::PrintIntroduction()
 {
 	std::cout << "Welcome to Scuffed Enjoyment AB's Casino Plaza, a place full of enjoyment and profit! \n";
@@ -27,17 +28,7 @@ void Engine::PrintIntroduction()
 	system("CLS");
 }
 
-//void PrintTutorial()
-//{
-//	std::cout << "The rules are simple!\n\n" << std::flush;
-//	system("pause");
-//	system("CLS");
-//	std::cout << "Simply write a number of your choice when asked. Once you have written down a number, two dice rolls will thrown! \n";
-//	std::cout << "If the resulting number of these two dice rolls is the same as what you have written down, you win the game! \n\n" << std::flush;
-//	system("pause");
-//	system("CLS");
-//
-//}
+
 
 
 
@@ -50,6 +41,7 @@ void Engine::OnGameRuntime()
 {
 
 	game::currentGameState = game::GameState::Start;
+	game::currentGameMode = game::GameMode::None;
 	bool isGameRunning = true;
 
 
@@ -68,14 +60,63 @@ void Engine::OnGameRuntime()
 				}
 			case game::GameState::Menu:
 				{
+					game::previousGameState = game::currentGameState;
 					std::cout << "Type a number of the corresponding menu element to proceed!\n";
-					std::cout << "Exit|Play\n-1|0\n";
-					game::currentGameState = game::GetGameStateFromInput(game::GetUserInput(-1, 0));
+					std::cout << "Exit|Play\n -1 | 0 \n";
+					int menuSelectionIndexes[] = { -1,0 };
+					game::currentGameState = game::GetGameStateFromInput(game::GetUserInput(menuSelectionIndexes));
+					break;
+				}
+			case game::GameState::Play:
+				{
+					game::previousGameState = game::currentGameState;
+
+					switch (game::currentGameMode)
+					{
+						case game::GameMode::RollADice:
+							{
+								RollADice::PlayGame();
+								break;
+							}
+						case game::GameMode::OddOrEven:
+							{
+								break;
+							}
+						case game::GameMode::None:
+							{
+								game::SelectGameMode();
+								break;
+							}
+
+					}
+					break;
+				}
+			case game::GameState::Won:
+				{
+					/*
+						Here reward player and give said player the option to either play again the same game mode
+						or select a new game mode.
+					*/
+					game::OnGameEndMenu("Game Won! Congrats!");
+
+					break;
+				}
+			case game::GameState::Lost:
+				{
+
+					game::OnGameEndMenu("Game Lost! Shame!...");
+
 					break;
 				}
 			case game::GameState::Exit:
 				{
 					isGameRunning = false;
+					break;
+				}
+			case game::GameState::Error:
+				{
+					std::cout << game::errorMessage;
+					game::currentGameState = game::previousGameState;
 					break;
 				}
 
