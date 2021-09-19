@@ -64,7 +64,7 @@ void Engine::OnGameRuntime()
 					std::cout << "Type a number of the corresponding menu element to proceed!\n";
 					std::cout << "Exit|Play\n -1 | 0 \n";
 					int menuSelectionIndexes[] = { -1,0 };
-					game::currentGameState = game::GetGameStateFromInput(game::GetUserInput(menuSelectionIndexes));
+					game::currentGameState = game::GetGameStateFromInput(game::GetNumericalUserInput(menuSelectionIndexes));
 					break;
 				}
 			case game::GameState::Play:
@@ -84,7 +84,7 @@ void Engine::OnGameRuntime()
 							}
 						case game::GameMode::None:
 							{
-								game::SelectGameMode();
+								game::OnGameModeSelection();
 								break;
 							}
 

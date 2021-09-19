@@ -1,6 +1,6 @@
 #pragma once
 #include<iostream>
-#include<iterator>
+#include<algorithm>
 namespace RuntimeManagement
 {
 
@@ -23,11 +23,14 @@ namespace RuntimeManagement
 	};
 
 
-	int GetUserInputConstrainedOnValueRange(int aMinInputValue, int aMaxInputValue);
-	int GetUserInput(int someAllowedValues[]);
+	int GetConstrainedNumericalUserInput(int aMinInputValue, int aMaxInputValue);
+	int GetNumericalUserInput(int someAllowedValues[]);
+	std::string GetUserInput(std::string acceptablePhrases[]);
+	//Below method was commented out because its implementation was removed (see implementation for more info).
+	//std::string ToLower(std::string someValue);
 	GameState GetGameStateFromInput(int someUserInput);
 	GameMode GetGameModeFromInput(int someUserInput);
-	void SelectGameMode();
+	void OnGameModeSelection();
 	void OnGameEndMenu(std::string aMenuMessage);
 
 
