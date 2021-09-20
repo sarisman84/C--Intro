@@ -140,11 +140,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Hasardspel.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="RollADice.cpp" />
     <ClCompile Include="RuntimeManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Hasardspel.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="RollADice.h" />
     <ClInclude Include="RuntimeManager.h" />
   </ItemGroup>

@@ -2,42 +2,31 @@
 
 namespace game = RuntimeManagement;
 
+
 namespace RollADice
 {
 	bool printTutorial = true;
 	void PlayGame()
 	{
+		User::currentBetAmm = 0;
 		game::previousGameState = game::currentGameState;
-		std::string introductionMessage = "You are about to play Roll a Dice! Continue?(Yes to continue, No to go back to the menu)\n";
+		
 		system("CLS");
 		if (printTutorial)
 		{
 			PrintInstructions();
 			printTutorial = false;
 
-			std::cout << introductionMessage;
-			std::string contextPhrasesToSelect[] = { "Yes", "No", "yes", "no"};
-			std::string userInput = game::GetUserInput(contextPhrasesToSelect);
+			User::ConfirmInContinuingPlayingCurrentMode("Roll A Dice");
 
-			if (userInput == "NaN")
-			{
-				game::currentGameState = game::GameState::Error;
-				return;
-			}
-			else if (userInput == "No" || userInput == "no")
-			{
-				game::currentGameState = game::GameState::Menu;
-				game::currentGameMode = game::GameMode::None;
-				system("CLS");
-				return;
-			}
-			
-			
+
 		}
 
+		User::SetABet();
 
 
 
+		system("CLS");
 		std::cout << "Write down a number between 1 and 12: ";
 
 		int userInputValue = game::GetConstrainedNumericalUserInput(1, 12);
@@ -52,9 +41,14 @@ namespace RollADice
 		}
 
 		generatedValue = GenerateResult();
-		game::currentGameState = userInputValue == generatedValue ? game::GameState::Won : game::GameState::Lost;
+
+		User::hasUserWon = userInputValue == generatedValue;
+		game::currentGameState = User::hasUserWon ? game::GameState::Won : game::GameState::Lost;
 		system("CLS");
-		std::cout << "The dice yielded " << generatedValue << ", making " << userInputValue << (userInputValue == generatedValue ? " equal " : " not equal ") << "to " << generatedValue << "!\n";
+		std::cout << "The dice yielded " << generatedValue << ", making " << userInputValue << (User::hasUserWon ? " equal " : " not equal ") << "to " << generatedValue << "!\n\n";
+
+
+		
 
 	}
 
