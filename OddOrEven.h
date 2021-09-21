@@ -15,7 +15,7 @@ namespace OddOrEven
 
 	void PlayGame();
 	void PrintInstructions();
-	bool AreDiceRollsGuessedCorrecly();
+	bool AreDiceRollsGuessedCorrecly(Outcome someGuessAtAnOutcome);
 
 	enum class Outcome
 	{
