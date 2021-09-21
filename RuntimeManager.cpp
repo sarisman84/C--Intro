@@ -25,19 +25,21 @@ namespace RuntimeManagement
 		return userInput;
 	}
 
-	std::string GetUserInput(std::string acceptablePhrases[])
+	std::string GetUserInput(std::string someAcceptablePhrases[], int anArraySize)
 	{
 		std::string userInput;
 		std::cin >> userInput;
 		//Based of this article on how to get the size of an array: 
 		//https://www.educative.io/edpresso/how-to-find-the-length-of-an-array-in-cpp
-		int arraySize = *(&acceptablePhrases + 1) - acceptablePhrases;
+		//anArraySize = *(&acceptablePhrases + 1) - acceptablePhrases;
+	
+		std::cout << anArraySize;
 
-		for (int i = 0; i < arraySize; i++)
+		for (int i = 0; i < anArraySize; i++)
 		{
-			if (userInput == acceptablePhrases[i])
+			if (userInput == someAcceptablePhrases[i])
 			{
-				if (userInput == acceptablePhrases[i])
+				if (userInput == someAcceptablePhrases[i])
 				{
 					return userInput;
 				}

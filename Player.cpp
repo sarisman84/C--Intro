@@ -37,7 +37,7 @@ namespace User
 	{
 		std::cout << "You are about to play " << aGameModeName << ". Continue? [Yes/No] ";
 		std::string contextPhrasesToSelect[] = { "Yes", "No", "yes", "no" };
-		std::string userInput = game::GetUserInput(contextPhrasesToSelect);
+		std::string userInput = game::GetUserInput(contextPhrasesToSelect, 4);
 
 		if (userInput == "NaN")
 		{

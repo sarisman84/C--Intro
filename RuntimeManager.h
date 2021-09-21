@@ -25,7 +25,7 @@ namespace RuntimeManagement
 
 	int GetConstrainedNumericalUserInput(int aMinInputValue, int aMaxInputValue);
 	int GetNumericalUserInput(int someAllowedValues[]);
-	std::string GetUserInput(std::string acceptablePhrases[]);
+	std::string GetUserInput(std::string someAcceptablePhrases[], int anArraySize);
 	//Below method was commented out because its implementation was removed (see implementation for more info).
 	//std::string ToLower(std::string someValue);
 	GameState GetGameStateFromInput(int someUserInput);

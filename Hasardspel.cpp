@@ -68,7 +68,7 @@ void Engine::OnGameRuntime()
 						game::previousGameState = game::currentGameState;
 						std::cout << "(Type the following to proceed)[Exit|Play] ";
 						std::string menuSelectionIndexes[] = { "Play", "play", "Exit", "exit" };
-						std::string input = game::GetUserInput(menuSelectionIndexes);
+						std::string input = game::GetUserInput(menuSelectionIndexes, 4);
 						game::currentGameState = game::GetGameStateFromInput(input == "Play" || input == "play" ? 0 : -1);
 						break;
 					}
