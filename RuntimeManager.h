@@ -34,6 +34,7 @@ namespace RuntimeManagement
 	void OnGameEndMenu(std::string aMenuMessage);
 
 
+
 	//The below variables NEED to have the extern keyword for the linker to work
 	//Source: https://stackoverflow.com/a/9702142/10483209
 

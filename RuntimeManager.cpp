@@ -31,8 +31,9 @@ namespace RuntimeManagement
 		std::cin >> userInput;
 		//Based of this article on how to get the size of an array: 
 		//https://www.educative.io/edpresso/how-to-find-the-length-of-an-array-in-cpp
+		//Doesnt work anymore..
 		//anArraySize = *(&acceptablePhrases + 1) - acceptablePhrases;
-	
+
 		std::cout << anArraySize;
 
 		for (int i = 0; i < anArraySize; i++)
@@ -104,35 +105,53 @@ namespace RuntimeManagement
 		system("CLS");
 		previousGameState = currentGameState;
 		std::cout << "Select a Game mode!\n";
-		std::cout << "Roll A Dice|Odd Or Even\n     1     |     2     \n";
-		int gameModeSelectionIndexes[] = { 1, 2 };
-		int userInput = GetNumericalUserInput(gameModeSelectionIndexes);
-		if (userInput == -200)
+		std::cout << "[RollADice|OddOrEven] ";
+		std::string gameModeSelectionIndexes[] = { "RollADice", "OddOrEven" };
+		std::string userInput = GetUserInput(gameModeSelectionIndexes, 2);
+		std::cout << userInput;
+		if (userInput == "RollADice")
+		{
+			currentGameMode = GameMode::RollADice;
+		}
+		else if (userInput == "OddOrEven")
+		{
+			currentGameMode = GameMode::OddOrEven;
+		}
+		else
 		{
 			currentGameState = GameState::Error;
-			return;
+			system("pause");
 		}
-		currentGameMode = GetGameModeFromInput(userInput);
 	}
 
 
 	void OnGameEndMenu(std::string aMenuMessage)
 	{
-		std::cout << aMenuMessage << "\n";
-		std::cout << "Continue|Play Other Gamemode|Exit\n    0   |         1         |  -1  \n";
-		int menuSelectionIndexes[] = { 0, 1, -1 };
+		std::cout << aMenuMessage << "[Continue|Play Other Games|Quit] ";
+		std::string menuSelectionIndexes[] = { "Continue", "Play Other Games", "Quit" };
 
-		int userInput = GetNumericalUserInput(menuSelectionIndexes);
-		if (userInput == 1)
+		std::string userInput = GetUserInput(menuSelectionIndexes, 6);
+		if (userInput == "Play Other Games")
 		{
 			currentGameMode = GameMode::None;
 			currentGameState = GameState::Play;
 			return;
 		}
-
-		currentGameState = GetGameStateFromInput(userInput);
+		else if (userInput == "Continue")
+		{
+			currentGameState = GameState::Play;
+		}
+		else if (userInput == "Quit")
+		{
+			currentGameState = GameState::Exit;
+		}
+		else
+		{
+			currentGameState = GameState::Error;
+		}
 
 	}
+
 
 
 

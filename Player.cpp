@@ -17,7 +17,8 @@ namespace User
 
 	void SetABet()
 	{
-		system("CLS");
+		system("CLS"); 
+		std::cout << "Current amount of cash: " << currentCapitalAmm << "\n";
 		std::cout << "Bet an amount of cash: ";
 		int userAssignedAmm;
 		std::cin >> userAssignedAmm;
