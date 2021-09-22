@@ -25,7 +25,7 @@ namespace RuntimeManagement
 	}
 
 
-
+	//Thank Linus for telling me the altenative way of using a for loop.
 	std::string ToLower(std::string someValue)
 	{
 		//The below loop was written based of this article on how to lower case a character in C++
