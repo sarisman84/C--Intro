@@ -26,11 +26,12 @@ namespace RuntimeManagement
 
 
 	//Thank Linus for telling me the altenative way of using a for loop.
-	std::string ToLower(std::string someValue)
+	std::string ToLower(std::string& someValue)
 	{
 		//The below loop was written based of this article on how to lower case a character in C++
 		//Source: https://thispointer.com/converting-a-string-to-upper-lower-case-in-c-using-stl-boost-library/
-		for (char i : someValue)
+
+		for (char& i : someValue)
 		{
 			i = tolower(i);
 		}
@@ -48,13 +49,17 @@ namespace RuntimeManagement
 
 		std::cout << anArraySize;
 
+		ToLower(userInput);
+
 		for (int i = 0; i < anArraySize; i++)
 		{
 			if (userInput == someAcceptablePhrases[i])
 			{
-				if (ToLower(userInput) == someAcceptablePhrases[i])
+				if (userInput == someAcceptablePhrases[i])
 				{
-					return ToLower(userInput);
+					errorMessage = userInput;
+
+					return userInput;
 				}
 			}
 		}
