@@ -25,7 +25,10 @@ namespace OddOrEven
 
 		}
 
-		User::SetABet();
+		if (!User::SetABet(game::currentGameMode))
+		{
+			return;
+		}
 
 		system("CLS");
 		std::cout << "Guess whenever both dice rolls are even or odd: ";

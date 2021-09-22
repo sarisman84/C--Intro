@@ -7,10 +7,11 @@ namespace User
 	extern bool hasUserWon;
 
 	bool IsBetAmmValid(int aBetAmm);
-	void SetABet();
+	bool SetABet(RuntimeManagement::GameMode aCurrentGameMode);
 	void ConfirmInContinuingPlayingCurrentMode(std::string aGameModeName);
-	void EarnCapital();
+	void EarnCapital(RuntimeManagement::GameMode aCurrentGameMode);
 	void PayCapital();
+	bool HasCapital();
 }
 
 

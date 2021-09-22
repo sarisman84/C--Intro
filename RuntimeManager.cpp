@@ -47,7 +47,7 @@ namespace RuntimeManagement
 		//anArraySize = *(&acceptablePhrases + 1) - acceptablePhrases;
 
 		std::cout << anArraySize;
-		
+
 		for (int i = 0; i < anArraySize; i++)
 		{
 			if (userInput == someAcceptablePhrases[i])
@@ -59,13 +59,13 @@ namespace RuntimeManagement
 			}
 		}
 
-		
+
 
 		userInput = "NaN";
 		return userInput;
 	}
 
-	
+
 
 	int GetNumericalUserInput(int someAllowedValues[])
 	{
@@ -133,6 +133,8 @@ namespace RuntimeManagement
 		std::cout << aMenuMessage << "[Continue|Play Other Games|Quit] ";
 		std::string menuSelectionIndexes[] = { "continue", "play other games", "quit" };
 
+
+
 		std::string userInput = GetUserInput(menuSelectionIndexes, 6);
 		if (userInput == "play other games")
 		{
@@ -152,6 +154,8 @@ namespace RuntimeManagement
 		{
 			currentGameState = GameState::Error;
 		}
+
+
 
 	}
 

@@ -11,27 +11,58 @@ namespace User
 
 	bool IsBetAmmValid(int aBetAmm)
 	{
-		return aBetAmm > 1;
+		return aBetAmm > 1 && aBetAmm <= currentCapitalAmm;
+	}
+
+	bool HasCapital()
+	{
+		return currentCapitalAmm > 0;
 	}
 
 
-	void SetABet()
+	bool SetABet(game::GameMode aCurrentGameMode)
 	{
 		system("CLS");
 		std::cout << "Current amount of cash: " << currentCapitalAmm << "\n";
-		std::cout << "Bet an amount of cash: ";
+
+		std::string multiplierOutput;
+
+		switch (aCurrentGameMode)
+		{
+
+			case RuntimeManagement::GameMode::RollADice:
+				{
+					multiplierOutput = "[x2]";
+					break;
+				}
+
+
+			case RuntimeManagement::GameMode::OddOrEven:
+				{
+					multiplierOutput = "[x3]";
+					break;
+				}
+
+
+		}
+
+		std::cout << "Bet an amount of cash (" << multiplierOutput << "cash amount upon winning!):";
 		int userAssignedAmm;
 		std::cin >> userAssignedAmm;
 		if (User::IsBetAmmValid(userAssignedAmm) && !std::cin.fail())
 		{
 			User::currentBetAmm = userAssignedAmm;
-			std::cout << "Assigned bet accepted! -> " << User::currentBetAmm << "\n";
+			std::cout << "Assigned bet accepted! -> " << User::currentBetAmm << " (" << multiplierOutput << "cash amount upon winning!)\n";
+				system("pause");
+			return true;
 		}
 		else
 		{
-			RuntimeManagement::currentGameState = RuntimeManagement::GameState::Error;
-			return;
+			game::errorMessage = "Invalid bet amount! Try again!";
+			game::currentGameState = game::GameState::Error;
+			return false;
 		}
+		return false;
 	}
 
 	void ConfirmInContinuingPlayingCurrentMode(std::string aGameModeName)
@@ -54,9 +85,26 @@ namespace User
 		}
 	}
 
-	void EarnCapital()
+	void EarnCapital(game::GameMode aCurrentGameMode)
 	{
-		User::currentCapitalAmm += User::currentBetAmm * 2;
+		switch (aCurrentGameMode)
+		{
+
+			case RuntimeManagement::GameMode::RollADice:
+				{
+					User::currentCapitalAmm += User::currentBetAmm * 2;
+					break;
+				}
+
+			case RuntimeManagement::GameMode::OddOrEven:
+				{
+					User::currentCapitalAmm += User::currentBetAmm * 3;
+					break;
+				}
+
+
+		}
+
 
 		std::cout <<
 			"Earned " << User::currentBetAmm * 2 << " cash. " << User::currentCapitalAmm << " remain!\n\n";

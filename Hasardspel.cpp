@@ -43,7 +43,7 @@ void Engine::OnGameRuntime()
 
 	game::currentGameState = game::GameState::Start;
 	game::currentGameMode = game::GameMode::None;
-	User::currentCapitalAmm = 10000;
+	User::currentCapitalAmm = 10;
 	bool isGameRunning = true;
 
 
@@ -55,6 +55,15 @@ void Engine::OnGameRuntime()
 	if (isGameRunning)
 		while (isGameRunning)
 		{
+			if (!User::HasCapital())
+			{
+
+				game::currentGameState = game::GameState::Exit;
+				system("CLS");
+				std::cout << "You have ran out of cash! Proceeding to exit." << std::endl;
+				system("pause");
+			}
+
 			switch (game::currentGameState)
 			{
 
@@ -81,6 +90,7 @@ void Engine::OnGameRuntime()
 						{
 							case game::GameMode::RollADice:
 								{
+									
 									RollADice::PlayGame();
 									break;
 								}
@@ -100,7 +110,8 @@ void Engine::OnGameRuntime()
 					}
 				case game::GameState::Won:
 					{
-						User::EarnCapital();
+						
+						User::EarnCapital(game::currentGameMode);
 						game::OnGameEndMenu("Game Won! Congrats!");
 
 						break;
@@ -108,7 +119,15 @@ void Engine::OnGameRuntime()
 				case game::GameState::Lost:
 					{
 						User::PayCapital();
-						game::OnGameEndMenu("Game Lost! Shame!...");
+						if (User::HasCapital())
+						{
+							game::OnGameEndMenu("Game Lost! Shame!...");
+						}
+						else
+						{
+							std::cout << "Game Lost! Shame...";
+							system("pause");
+						}
 						break;
 					}
 				case game::GameState::Exit:

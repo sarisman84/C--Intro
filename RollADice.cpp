@@ -23,7 +23,10 @@ namespace RollADice
 
 		}
 
-		User::SetABet();
+		if (!User::SetABet(game::currentGameMode))
+		{
+			return;
+		}
 
 
 
