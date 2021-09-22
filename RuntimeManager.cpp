@@ -24,6 +24,19 @@ namespace RuntimeManagement
 		return userInput;
 	}
 
+
+
+	std::string ToLower(std::string someValue)
+	{
+		//The below loop was written based of this article on how to lower case a character in C++
+		//Source: https://thispointer.com/converting-a-string-to-upper-lower-case-in-c-using-stl-boost-library/
+		for (char i : someValue)
+		{
+			i = tolower(i);
+		}
+		return someValue;
+	}
+
 	std::string GetUserInput(std::string someAcceptablePhrases[], int anArraySize)
 	{
 		std::string userInput;
@@ -34,34 +47,25 @@ namespace RuntimeManagement
 		//anArraySize = *(&acceptablePhrases + 1) - acceptablePhrases;
 
 		std::cout << anArraySize;
-
+		
 		for (int i = 0; i < anArraySize; i++)
 		{
 			if (userInput == someAcceptablePhrases[i])
 			{
-				if (userInput == someAcceptablePhrases[i])
+				if (ToLower(userInput) == someAcceptablePhrases[i])
 				{
-					return userInput;
+					return ToLower(userInput);
 				}
 			}
 		}
+
+		
 
 		userInput = "NaN";
 		return userInput;
 	}
 
-	//Below code is commented out as it is not allowed in the current assigment (Uppgift 2)
-
-	//std::string ToLower(std::string someValue)
-	//{
-	//	//The below loop was written based of this article on how to lower case a character in C++
-	//	//Source: https://thispointer.com/converting-a-string-to-upper-lower-case-in-c-using-stl-boost-library/
-	//	std::for_each(someValue.begin(), someValue.end(), [](char& c)
-	//				  {
-	//					  c = ::tolower(c);
-	//				  });
-	//	return someValue;
-	//}
+	
 
 	int GetNumericalUserInput(int someAllowedValues[])
 	{
@@ -105,14 +109,14 @@ namespace RuntimeManagement
 		previousGameState = currentGameState;
 		std::cout << "Select a Game mode!\n";
 		std::cout << "[RollADice|OddOrEven] ";
-		std::string gameModeSelectionIndexes[] = { "RollADice", "OddOrEven" };
+		std::string gameModeSelectionIndexes[] = { "rolladice", "oddoreven" };
 		std::string userInput = GetUserInput(gameModeSelectionIndexes, 2);
 		std::cout << userInput;
-		if (userInput == "RollADice")
+		if (userInput == "rolladice")
 		{
 			currentGameMode = GameMode::RollADice;
 		}
-		else if (userInput == "OddOrEven")
+		else if (userInput == "oddoreven")
 		{
 			currentGameMode = GameMode::OddOrEven;
 		}
@@ -127,20 +131,20 @@ namespace RuntimeManagement
 	void OnGameEndMenu(std::string aMenuMessage)
 	{
 		std::cout << aMenuMessage << "[Continue|Play Other Games|Quit] ";
-		std::string menuSelectionIndexes[] = { "Continue", "Play Other Games", "Quit" };
+		std::string menuSelectionIndexes[] = { "continue", "play other games", "quit" };
 
 		std::string userInput = GetUserInput(menuSelectionIndexes, 6);
-		if (userInput == "Play Other Games")
+		if (userInput == "play other games")
 		{
 			currentGameMode = GameMode::None;
 			currentGameState = GameState::Play;
 			return;
 		}
-		else if (userInput == "Continue")
+		else if (userInput == "continue")
 		{
 			currentGameState = GameState::Play;
 		}
-		else if (userInput == "Quit")
+		else if (userInput == "quit")
 		{
 			currentGameState = GameState::Exit;
 		}

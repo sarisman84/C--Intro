@@ -17,7 +17,7 @@ namespace User
 
 	void SetABet()
 	{
-		system("CLS"); 
+		system("CLS");
 		std::cout << "Current amount of cash: " << currentCapitalAmm << "\n";
 		std::cout << "Bet an amount of cash: ";
 		int userAssignedAmm;
@@ -37,7 +37,7 @@ namespace User
 	void ConfirmInContinuingPlayingCurrentMode(std::string aGameModeName)
 	{
 		std::cout << "You are about to play " << aGameModeName << ". Continue? [Yes/No] ";
-		std::string contextPhrasesToSelect[] = { "Yes", "No", "yes", "no" };
+		std::string contextPhrasesToSelect[] = { "yes", "no" };
 		std::string userInput = game::GetUserInput(contextPhrasesToSelect, 4);
 
 		if (userInput == "NaN")
@@ -45,7 +45,7 @@ namespace User
 			game::currentGameState = game::GameState::Error;
 			return;
 		}
-		else if (userInput == "No" || userInput == "no")
+		else if (userInput == "no")
 		{
 			game::currentGameState = game::GameState::Menu;
 			game::currentGameMode = game::GameMode::None;
