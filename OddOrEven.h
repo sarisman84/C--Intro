@@ -1,5 +1,5 @@
 #pragma once
-#include "RollADice.h";
+#include "Player.h";
 namespace OddOrEven
 {
 	/*
@@ -10,17 +10,20 @@ namespace OddOrEven
 	The computer then rolls two dice. \
 	If both dice are of the users desired outcome, say even,
 	then the user wins. Otherwise, the user looses.
-	
+
 	*/
+	enum class Outcome
+	{
+		Odd,
+		Even,
+		Invalid
+	};
 
 	void PlayGame();
 	void PrintInstructions();
 	bool AreDiceRollsGuessedCorrecly(Outcome someGuessAtAnOutcome);
+	Outcome GetOutcomeFromInput();
 
-	enum class Outcome
-	{
-		Odd,
-		Even
-	};
-	
+
+
 }

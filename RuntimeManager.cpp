@@ -9,7 +9,6 @@ namespace RuntimeManagement
 	GameState previousGameState = currentGameState;
 	GameMode currentGameMode = GameMode::RollADice;
 	std::string errorMessage = "Invalid Input";
-	std::string currentGameModeName = "NaN";
 
 	int GetConstrainedNumericalUserInput(int aMinInputValue, int aMaxInputValue)
 	{

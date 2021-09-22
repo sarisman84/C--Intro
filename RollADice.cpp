@@ -8,6 +8,7 @@ namespace RollADice
 	bool printTutorial = true;
 	void PlayGame()
 	{
+		game::errorMessage = "Invalid word or input. Try again!";
 		User::currentBetAmm = 0;
 		game::previousGameState = game::currentGameState;
 		
@@ -28,7 +29,7 @@ namespace RollADice
 
 		system("CLS");
 		std::cout << "Write down a number between 1 and 12: ";
-
+		game::errorMessage = "Invalid number (number is not between 1 and 12). Try again!";
 		int userInputValue = game::GetConstrainedNumericalUserInput(1, 12);
 		int generatedValue;
 

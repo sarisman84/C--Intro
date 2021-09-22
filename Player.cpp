@@ -56,10 +56,10 @@ namespace User
 
 	void EarnCapital()
 	{
-		User::currentCapitalAmm += User::currentBetAmm;
+		User::currentCapitalAmm += User::currentBetAmm * 2;
 
 		std::cout <<
-			"Earned " << User::currentBetAmm << " cash. " << User::currentCapitalAmm << " remain!\n\n";
+			"Earned " << User::currentBetAmm * 2 << " cash. " << User::currentCapitalAmm << " remain!\n\n";
 	}
 
 	void PayCapital()

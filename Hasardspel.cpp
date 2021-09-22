@@ -1,5 +1,6 @@
 #include "Hasardspel.h"
 #include"RollADice.h"
+#include "OddOrEven.h"
 
 
 /*
@@ -85,6 +86,7 @@ void Engine::OnGameRuntime()
 								}
 							case game::GameMode::OddOrEven:
 								{
+									OddOrEven::PlayGame();
 									break;
 								}
 							case game::GameMode::None:
@@ -116,8 +118,10 @@ void Engine::OnGameRuntime()
 					}
 				case game::GameState::Error:
 					{
-						std::cout << game::errorMessage;
+						system("CLS");
+						std::cout << game::errorMessage << std::endl;
 						game::currentGameState = game::previousGameState;
+						system("pause");
 						break;
 					}
 

@@ -42,7 +42,7 @@ namespace RuntimeManagement
 	extern GameState previousGameState;
 	extern GameMode currentGameMode;
 	extern std::string errorMessage;
-	extern std::string currentGameModeName;
+
 
 	 
 }
