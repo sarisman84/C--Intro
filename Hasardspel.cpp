@@ -43,7 +43,7 @@ void Engine::OnGameRuntime()
 
 	game::currentGameState = game::GameState::Start;
 	game::currentGameMode = game::GameMode::None;
-	User::currentCapitalAmm = 10;
+	User::currentCapitalAmm = 1000;
 	bool isGameRunning = true;
 
 
@@ -75,22 +75,58 @@ void Engine::OnGameRuntime()
 					}
 				case game::GameState::Menu:
 					{
+						system("CLS");
 						game::previousGameState = game::currentGameState;
+						std::cout << "Current amount of cash: " << User::currentCapitalAmm << std::endl << std::endl;
+						std::cout << "What do you want to do?" << std::endl;
 						std::cout << "(Type the following to proceed)[Exit|Play] ";
 						std::string menuSelectionIndexes[] = { "play", "exit" };
-						std::string input = game::GetUserInput(menuSelectionIndexes, 4);
-						game::currentGameState = game::GetGameStateFromInput(input == "play" ? 0 : input == "exit" ? - 1 : -200);
+						std::string input = User::GetUserInput(menuSelectionIndexes, 4);
+						game::currentGameState = game::GetGameStateFromInput(input == "play" ? 0 : input == "exit" ? -1 : -200);
 						break;
 					}
 				case game::GameState::Play:
 					{
+						system("CLS");
 						game::previousGameState = game::currentGameState;
+
+						if (game::currentGameMode != game::GameMode::None)
+						{
+							if (!game::isCurrentUserNewToGameMode())
+							{
+								std::cout << "What do you want to do?" << std::endl;
+								std::cout << "[Play|See Tutorial|Exit] ";
+								std::string menuSelectionOptions[] = { "play","p","see tutorial", "tutorial", "exit", "quit" };
+								std::string input = User::GetUserInput(menuSelectionOptions, 6);
+
+								if (input == "see tutorial" || input == "tutorial")
+								{
+									game::currentGameState = game::GameState::Tutorial;
+									break;
+								}
+								else if (input == "exit" || input == "quit")
+								{
+									game::currentGameState = game::GameState::Exit;
+									break;
+								}
+								else if (input == "NaN")
+								{
+									game::currentGameState = game::GameState::Error;
+									break;
+								}
+							}
+							else
+							{
+								game::currentGameState = game::GameState::Tutorial;
+								break;
+							}
+						}
 
 						switch (game::currentGameMode)
 						{
 							case game::GameMode::RollADice:
 								{
-									
+
 									RollADice::PlayGame();
 									break;
 								}
@@ -108,9 +144,26 @@ void Engine::OnGameRuntime()
 						}
 						break;
 					}
+				case game::GameState::Tutorial:
+					{
+						if (game::currentGameMode == game::GameMode::RollADice)
+						{
+							std::string instructions[3];
+							RollADice::GetInstructions(instructions);
+							User::DisplayStringArrayToConsole(3, instructions);
+						}
+						else
+						{
+							std::string instructions[2];
+							OddOrEven::GetInstructions(instructions);
+							User::DisplayStringArrayToConsole(2, instructions);
+						}
+						game::currentGameState = game::GameState::Play;
+						break;
+					}
 				case game::GameState::Won:
 					{
-						
+
 						User::EarnCapital(game::currentGameMode);
 						game::OnGameEndMenu("Game Won! Congrats!");
 

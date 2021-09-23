@@ -20,7 +20,7 @@ namespace User
 	}
 
 
-	bool SetABet(game::GameMode aCurrentGameMode)
+	bool TrySetABet(game::GameMode aCurrentGameMode)
 	{
 		system("CLS");
 		std::cout << "Current amount of cash: " << currentCapitalAmm << "\n";
@@ -52,8 +52,14 @@ namespace User
 		if (User::IsBetAmmValid(userAssignedAmm) && !std::cin.fail())
 		{
 			User::currentBetAmm = userAssignedAmm;
-			std::cout << "Assigned bet accepted! -> " << User::currentBetAmm << " (" << multiplierOutput << "cash amount upon winning!)\n";
-				system("pause");
+			std::string output = "Assigned bet accepted! -> ";
+			if (User::currentBetAmm == User::currentCapitalAmm)
+			{
+				output = "Going all in i see! Ill allow it! -> ";
+			}
+
+			std::cout << output << User::currentBetAmm << " (" << multiplierOutput << "cash amount upon winning!)\n";
+			system("pause");
 			return true;
 		}
 		else
@@ -69,7 +75,7 @@ namespace User
 	{
 		std::cout << "You are about to play " << aGameModeName << ". Continue? [Yes/No] ";
 		std::string contextPhrasesToSelect[] = { "yes", "no" };
-		std::string userInput = game::GetUserInput(contextPhrasesToSelect, 4);
+		std::string userInput = GetUserInput(contextPhrasesToSelect, 4);
 
 		if (userInput == "NaN")
 		{
@@ -83,6 +89,25 @@ namespace User
 			system("CLS");
 			return;
 		}
+	}
+
+
+
+	void DisplayStringArrayToConsole(int anArraySize, std::string someInstructions[])
+	{
+		system("CLS");
+		for (int  x = 0; x < anArraySize; x++)
+		{
+			system("CLS");
+			for (int i = 0; i <= x; i++)
+			{
+				std::cout << someInstructions[i] << std::endl;
+				
+			}
+			system("pause");
+		}
+		
+		system("CLS");
 	}
 
 	void EarnCapital(game::GameMode aCurrentGameMode)
@@ -115,5 +140,91 @@ namespace User
 		User::currentCapitalAmm -= User::currentBetAmm;
 
 		std::cout << "Lost " << User::currentBetAmm << " cash. " << User::currentCapitalAmm << " remain!\n\n";
+	}
+
+	int GetConstrainedNumericalUserInput(int aMinInputValue, int aMaxInputValue)
+	{
+		int userInput;
+		std::cin >> userInput;
+		if (userInput < aMinInputValue || userInput > aMaxInputValue || std::cin.fail())
+		{
+			userInput = -200;
+			std::cin.clear(); //Clears the stream buffer.
+			std::cin.ignore(1000); //Clears the input field.
+		}
+
+		return userInput;
+	}
+
+
+	//Thank Linus for telling me the altenative way of using a for loop.
+	void ToLower(std::string& someValue)
+	{
+		//The below loop was written based of this article on how to lower case a character in C++
+		//Source: https://thispointer.com/converting-a-string-to-upper-lower-case-in-c-using-stl-boost-library/
+
+		for (char& i : someValue)
+		{
+			i = tolower(i);
+		}
+
+	}
+
+	std::string GetUserInput(std::string someAcceptablePhrases[], int anArraySize)
+	{
+		std::string userInput;
+		std::cin >> userInput;
+		//Based of this article on how to get the size of an array: 
+		//https://www.educative.io/edpresso/how-to-find-the-length-of-an-array-in-cpp
+		//Doesnt work anymore..
+		//anArraySize = *(&acceptablePhrases + 1) - acceptablePhrases;
+
+		std::cout << anArraySize;
+
+		ToLower(userInput);
+
+		for (int i = 0; i < anArraySize; i++)
+		{
+			if (userInput == someAcceptablePhrases[i])
+			{
+				if (userInput == someAcceptablePhrases[i])
+				{
+					game::errorMessage = userInput;
+
+					return userInput;
+				}
+			}
+		}
+
+
+
+		userInput = "NaN";
+		return userInput;
+	}
+
+
+
+	int GetNumericalUserInput(int someAllowedValues[])
+	{
+		int userInput;
+		std::cin >> userInput;
+
+
+
+		//Based of this article on how to get the size of an array: 
+		//https://www.educative.io/edpresso/how-to-find-the-length-of-an-array-in-cpp
+
+		int arraySize = *(&someAllowedValues + 1) - someAllowedValues;
+		for (int i = 0; i < arraySize; i++)
+		{
+			if (someAllowedValues[i] == userInput && !std::cin.fail())
+			{
+				return userInput;
+			}
+		}
+
+		std::cin.clear();
+		std::cin.ignore(1000);
+		return -200;
 	}
 }

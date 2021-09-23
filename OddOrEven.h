@@ -20,8 +20,8 @@ namespace OddOrEven
 	};
 
 	void PlayGame();
-	void PrintInstructions();
-	bool AreDiceRollsGuessedCorrecly(Outcome someGuessAtAnOutcome);
+	void GetInstructions(std::string(&anArray)[2]);
+	bool AreDiceRollsGuessedCorrecly(Outcome someGuessAtAnOutcome, int&aFirstDiceOutcome, int&aSecondDiceOutcome);
 	Outcome GetOutcomeFromInput();
 
 

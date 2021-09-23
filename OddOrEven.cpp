@@ -1,31 +1,17 @@
 #include "OddOrEven.h"
 
+
 namespace game = RuntimeManagement;
 
 namespace OddOrEven
 {
 
-
-
-	bool printTutorial = true;
 	void PlayGame()
 	{
 		game::errorMessage = "Invalid word or input. Try again!";
 		User::currentBetAmm = 0;
-		game::previousGameState = game::currentGameState;
 
-		system("CLS");
-		if (printTutorial)
-		{
-			PrintInstructions();
-			printTutorial = false;
-
-			User::ConfirmInContinuingPlayingCurrentMode("Odd Or Even");
-
-
-		}
-
-		if (!User::SetABet(game::currentGameMode))
+		if (!User::TrySetABet(game::currentGameMode))
 		{
 			return;
 		}
@@ -41,10 +27,13 @@ namespace OddOrEven
 			return;
 		}
 		system("CLS");
-
-		bool result = AreDiceRollsGuessedCorrecly(guessedOutcome);
+		int firstDiceResult;
+		int secondDiceResult;
+		bool result = AreDiceRollsGuessedCorrecly(guessedOutcome, firstDiceResult, secondDiceResult);
 		std::string printedResult = (result ? "Guessed correctly!" : "Guessed wrong!");
 		std::cout << printedResult << " Both dice rolls are " << (result ? "" : "not ") << (guessedOutcome == Outcome::Even ? "even" : "odd") << "!" << std::endl;
+		std::cout << "1st Dice: " << firstDiceResult << std::endl;
+		std::cout << "2nd Dice: " << secondDiceResult << std::endl << std::endl;
 
 		game::currentGameState = result ? game::GameState::Won : game::GameState::Lost;
 	}
@@ -53,7 +42,7 @@ namespace OddOrEven
 	Outcome GetOutcomeFromInput()
 	{
 		std::string acceptableTerms[] = { "even", "odd" };
-		std::string userInput = game::GetUserInput(acceptableTerms, 4);
+		std::string userInput = User::GetUserInput(acceptableTerms, 4);
 
 		if (userInput == "NaN")
 		{
@@ -66,29 +55,37 @@ namespace OddOrEven
 
 	}
 
-	void PrintInstructions()
+
+	void GetInstructions(std::string(&anArray)[2])
 	{
-		system("CLS");
-		std::cout << "The rules are simple!\n\n" << std::flush;
-		system("pause");
-		system("CLS");
-		std::cout << "Simply write whenever or not the two dice rolls that were thrown are both even or odd!\n\n";
-		system("pause");
-		system("CLS");
+		anArray[0] = "The rules are simple!\n";
+		anArray[1] = "Simply write whenever or not the two dice rolls that were thrown are both even or odd!\n";
+
+
 	}
 
-	bool AreDiceRollsGuessedCorrecly(Outcome someGuessAtAnOutcome)
+	bool AreDiceRollsGuessedCorrecly(Outcome someGuessAtAnOverallOutcome, int& aFirstDiceOutcome, int& aSecondDiceOutcome)
 	{
-		int diceRoll1 = rand() % 6 + 1;
-		int diceRoll2 = rand() % 6 + 1;
+		int diceRoll1 = game::RandomNumber(1, 6);
+		int diceRoll2 = game::RandomNumber(1, 6);
+		aFirstDiceOutcome = diceRoll1;
+		aSecondDiceOutcome = diceRoll2;
 
 
-		switch (someGuessAtAnOutcome)
+		switch (someGuessAtAnOverallOutcome)
 		{
 			case Outcome::Even:
-				return diceRoll1 % 2 == 0 && diceRoll2 % 2 == 0;
+				{
+
+					return diceRoll1 % 2 == 0 && diceRoll2 % 2 == 0;
+				}
+
 			case Outcome::Odd:
-				return diceRoll1 % 2 != 0 && diceRoll2 % 2 != 0;
+				{
+
+					return diceRoll1 % 2 != 0 && diceRoll2 % 2 != 0;
+				}
+
 
 		}
 		return false;

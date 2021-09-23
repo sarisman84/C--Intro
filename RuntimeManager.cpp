@@ -1,4 +1,4 @@
-#include "RuntimeManager.h"
+#include "Player.h"
 
 namespace RuntimeManagement
 {
@@ -10,92 +10,15 @@ namespace RuntimeManagement
 	GameMode currentGameMode = GameMode::RollADice;
 	std::string errorMessage = "Invalid Input";
 
-	int GetConstrainedNumericalUserInput(int aMinInputValue, int aMaxInputValue)
+	//Created by Marcus Dalh, is an altenative to rand()
+	int RandomNumber(int low, int high)
 	{
-		int userInput;
-		std::cin >> userInput;
-		if (userInput < aMinInputValue || userInput > aMaxInputValue || std::cin.fail())
-		{
-			userInput = -200;
-			std::cin.clear(); //Clears the stream buffer.
-			std::cin.ignore(1000); //Clears the input field.
-		}
+		std::random_device rd; // obtain a random number from hardware
+		std::mt19937 gen(rd()); // seed the generator
+		std::uniform_int_distribution<> distr(low, high); // define the range
 
-		return userInput;
+		return distr(gen);
 	}
-
-
-	//Thank Linus for telling me the altenative way of using a for loop.
-	std::string ToLower(std::string& someValue)
-	{
-		//The below loop was written based of this article on how to lower case a character in C++
-		//Source: https://thispointer.com/converting-a-string-to-upper-lower-case-in-c-using-stl-boost-library/
-
-		for (char& i : someValue)
-		{
-			i = tolower(i);
-		}
-		return someValue;
-	}
-
-	std::string GetUserInput(std::string someAcceptablePhrases[], int anArraySize)
-	{
-		std::string userInput;
-		std::cin >> userInput;
-		//Based of this article on how to get the size of an array: 
-		//https://www.educative.io/edpresso/how-to-find-the-length-of-an-array-in-cpp
-		//Doesnt work anymore..
-		//anArraySize = *(&acceptablePhrases + 1) - acceptablePhrases;
-
-		std::cout << anArraySize;
-
-		ToLower(userInput);
-
-		for (int i = 0; i < anArraySize; i++)
-		{
-			if (userInput == someAcceptablePhrases[i])
-			{
-				if (userInput == someAcceptablePhrases[i])
-				{
-					errorMessage = userInput;
-
-					return userInput;
-				}
-			}
-		}
-
-
-
-		userInput = "NaN";
-		return userInput;
-	}
-
-
-
-	int GetNumericalUserInput(int someAllowedValues[])
-	{
-		int userInput;
-		std::cin >> userInput;
-
-
-
-		//Based of this article on how to get the size of an array: 
-		//https://www.educative.io/edpresso/how-to-find-the-length-of-an-array-in-cpp
-
-		int arraySize = *(&someAllowedValues + 1) - someAllowedValues;
-		for (int i = 0; i < arraySize; i++)
-		{
-			if (someAllowedValues[i] == userInput && !std::cin.fail())
-			{
-				return userInput;
-			}
-		}
-
-		std::cin.clear();
-		std::cin.ignore(1000);
-		return -200;
-	}
-
 
 
 	GameState GetGameStateFromInput(int someUserInput)
@@ -115,7 +38,7 @@ namespace RuntimeManagement
 		std::cout << "Select a Game mode!\n";
 		std::cout << "[RollADice|OddOrEven] ";
 		std::string gameModeSelectionIndexes[] = { "rolladice", "oddoreven" };
-		std::string userInput = GetUserInput(gameModeSelectionIndexes, 2);
+		std::string userInput = User::GetUserInput(gameModeSelectionIndexes, 2);
 		std::cout << userInput;
 		if (userInput == "rolladice")
 		{
@@ -135,19 +58,18 @@ namespace RuntimeManagement
 
 	void OnGameEndMenu(std::string aMenuMessage)
 	{
-		std::cout << aMenuMessage << "[Continue|Play Other Games|Quit] ";
-		std::string menuSelectionIndexes[] = { "continue", "play other games", "quit" };
+		std::cout << aMenuMessage << "[Continue|Menu|Quit] ";
+		std::string menuSelectionIndexes[] = { "continue", "c", "menu", "quit" };
 
 
 
-		std::string userInput = GetUserInput(menuSelectionIndexes, 6);
-		if (userInput == "play other games")
+		std::string userInput = User::GetUserInput(menuSelectionIndexes, 4);
+		if (userInput == "menu")
 		{
 			currentGameMode = GameMode::None;
-			currentGameState = GameState::Play;
-			return;
+			currentGameState = GameState::Menu;
 		}
-		else if (userInput == "continue")
+		else if (userInput == "continue" || userInput == "c")
 		{
 			currentGameState = GameState::Play;
 		}
@@ -162,6 +84,31 @@ namespace RuntimeManagement
 
 
 
+	}
+
+	bool rollADice_firstPlaythrough = true;
+	bool oddOrEven_firstPlaythrough = true;
+
+	bool isCurrentUserNewToGameMode()
+	{
+		bool result = false;
+		switch (currentGameMode)
+		{
+			case GameMode::RollADice:
+				{
+					result = rollADice_firstPlaythrough;
+					rollADice_firstPlaythrough = false;
+				}
+
+			case GameMode::OddOrEven:
+				{
+					result = oddOrEven_firstPlaythrough;
+					oddOrEven_firstPlaythrough = false;
+				}
+				
+		}
+
+		return result;
 	}
 
 

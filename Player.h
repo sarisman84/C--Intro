@@ -7,9 +7,13 @@ namespace User
 	extern bool hasUserWon;
 
 	bool IsBetAmmValid(int aBetAmm);
-	bool SetABet(RuntimeManagement::GameMode aCurrentGameMode);
+	bool TrySetABet(RuntimeManagement::GameMode aCurrentGameMode);
 	void ConfirmInContinuingPlayingCurrentMode(std::string aGameModeName);
+	void DisplayStringArrayToConsole(int anArraySize, std::string someInstructions[]);
 	void EarnCapital(RuntimeManagement::GameMode aCurrentGameMode);
+	int GetConstrainedNumericalUserInput(int aMinInputValue, int aMaxInputValue);
+	int GetNumericalUserInput(int someAllowedValues[]);
+	std::string GetUserInput(std::string someAcceptablePhrases[], int anArraySize);
 	void PayCapital();
 	bool HasCapital();
 }

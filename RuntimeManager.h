@@ -1,6 +1,7 @@
 #pragma once
 #include<iostream>
 #include<algorithm>
+#include<random>
 namespace RuntimeManagement
 {
 
@@ -12,7 +13,8 @@ namespace RuntimeManagement
 		Won = 10,
 		Lost = 9,
 		Error = -200,
-		Exit = -1
+		Exit = -1,
+		Tutorial = 100
 	};
 
 	enum class GameMode
@@ -23,15 +25,18 @@ namespace RuntimeManagement
 	};
 
 
-	int GetConstrainedNumericalUserInput(int aMinInputValue, int aMaxInputValue);
-	int GetNumericalUserInput(int someAllowedValues[]);
-	std::string GetUserInput(std::string someAcceptablePhrases[], int anArraySize);
+
 	//Below method was commented out because its implementation was removed (see implementation for more info).
 	//std::string ToLower(std::string someValue);
 	GameState GetGameStateFromInput(int someUserInput);
 	GameMode GetGameModeFromInput(int someUserInput);
+	/*Created by Marcus Dalh, is an altenative to rand()
+	Selects a random number between a minimum (inclusive) and a maximum (inclusive) number.
+	*/
+	int RandomNumber(int low, int high);
 	void OnGameModeSelection();
 	void OnGameEndMenu(std::string aMenuMessage);
+	bool isCurrentUserNewToGameMode();
 
 
 
@@ -44,5 +49,5 @@ namespace RuntimeManagement
 	extern std::string errorMessage;
 
 
-	 
+
 }
