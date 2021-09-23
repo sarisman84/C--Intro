@@ -11,11 +11,11 @@ namespace RuntimeManagement
 	std::string errorMessage = "Invalid Input";
 
 	//Created by Marcus Dalh, is an altenative to rand()
-	int RandomNumber(int low, int high)
+	int RandomNumber(int aMinNumber, int aMaxNumber)
 	{
 		std::random_device rd; // obtain a random number from hardware
 		std::mt19937 gen(rd()); // seed the generator
-		std::uniform_int_distribution<> distr(low, high); // define the range
+		std::uniform_int_distribution<> distr(aMinNumber, aMaxNumber); // define the range
 
 		return distr(gen);
 	}

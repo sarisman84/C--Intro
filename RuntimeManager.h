@@ -33,7 +33,7 @@ namespace RuntimeManagement
 	/*Created by Marcus Dalh, is an altenative to rand()
 	Selects a random number between a minimum (inclusive) and a maximum (inclusive) number.
 	*/
-	int RandomNumber(int low, int high);
+	int RandomNumber(int aMinNumber, int aMaxNumber);
 	void OnGameModeSelection();
 	void OnGameEndMenu(std::string aMenuMessage);
 	bool isCurrentUserNewToGameMode();
