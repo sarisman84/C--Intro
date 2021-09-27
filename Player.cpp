@@ -163,9 +163,9 @@ namespace User
 		//The below loop was written based of this article on how to lower case a character in C++
 		//Source: https://thispointer.com/converting-a-string-to-upper-lower-case-in-c-using-stl-boost-library/
 
-		for (char& i : someValue)
+		for (int i = 0; i < someValue.size(); i++)
 		{
-			i = tolower(i);
+			someValue[i] = tolower(someValue[i]);
 		}
 
 	}
