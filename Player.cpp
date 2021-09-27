@@ -96,17 +96,17 @@ namespace User
 	void DisplayStringArrayToConsole(int anArraySize, std::string someInstructions[])
 	{
 		system("CLS");
-		for (int  x = 0; x < anArraySize; x++)
+		for (int x = 0; x < anArraySize; x++)
 		{
 			system("CLS");
 			for (int i = 0; i <= x; i++)
 			{
 				std::cout << someInstructions[i] << std::endl;
-				
+
 			}
 			system("pause");
 		}
-		
+
 		system("CLS");
 	}
 
@@ -163,9 +163,9 @@ namespace User
 		//The below loop was written based of this article on how to lower case a character in C++
 		//Source: https://thispointer.com/converting-a-string-to-upper-lower-case-in-c-using-stl-boost-library/
 
-		for (int i = 0; i < someValue.size(); i++)
+		for (auto& letter : someValue)
 		{
-			someValue[i] = tolower(someValue[i]);
+			letter = tolower(letter);
 		}
 
 	}
