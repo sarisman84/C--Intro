@@ -55,9 +55,29 @@ namespace RuntimeManagement
 		}
 	}
 
+	int CurrentGameModeEarningsMultiplier()
+	{
+		switch (currentGameMode)
+		{
+
+			case RuntimeManagement::GameMode::RollADice:
+				return 2;
+			case RuntimeManagement::GameMode::OddOrEven:
+				return 3;
+			default:
+				return 1;
+
+		}
+	}
+
+
+
 
 	void OnGameEndMenu(std::string aMenuMessage)
 	{
+
+
+
 		std::cout << aMenuMessage << "[Continue|Menu|Quit] ";
 		std::string menuSelectionIndexes[] = { "continue", "c", "menu", "quit" };
 
@@ -105,7 +125,7 @@ namespace RuntimeManagement
 					result = oddOrEven_firstPlaythrough;
 					oddOrEven_firstPlaythrough = false;
 				}
-				
+
 		}
 
 		return result;

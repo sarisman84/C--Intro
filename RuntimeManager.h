@@ -2,6 +2,8 @@
 #include<iostream>
 #include<algorithm>
 #include<random>
+#include<array>
+
 namespace RuntimeManagement
 {
 
@@ -37,6 +39,7 @@ namespace RuntimeManagement
 	void OnGameModeSelection();
 	void OnGameEndMenu(std::string aMenuMessage);
 	bool isCurrentUserNewToGameMode();
+	int CurrentGameModeEarningsMultiplier();
 
 
 

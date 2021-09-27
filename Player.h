@@ -10,7 +10,7 @@ namespace User
 	bool TrySetABet(RuntimeManagement::GameMode aCurrentGameMode);
 	void ConfirmInContinuingPlayingCurrentMode(std::string aGameModeName);
 	void DisplayStringArrayToConsole(int anArraySize, std::string someInstructions[]);
-	void EarnCapital(RuntimeManagement::GameMode aCurrentGameMode);
+	void EarnCapital();
 	int GetConstrainedNumericalUserInput(int aMinInputValue, int aMaxInputValue);
 	int GetNumericalUserInput(int someAllowedValues[]);
 	std::string GetUserInput(std::string someAcceptablePhrases[], int anArraySize);

@@ -8,6 +8,7 @@ namespace RollADice
 
 	void PlayGame()
 	{
+		User::hasUserWon = false;
 		game::errorMessage = "Invalid word or input. Try again!";
 		User::currentBetAmm = 0;
 

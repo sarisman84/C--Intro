@@ -110,29 +110,14 @@ namespace User
 		system("CLS");
 	}
 
-	void EarnCapital(game::GameMode aCurrentGameMode)
+	void EarnCapital()
 	{
-		switch (aCurrentGameMode)
-		{
-
-			case RuntimeManagement::GameMode::RollADice:
-				{
-					User::currentCapitalAmm += User::currentBetAmm * 2;
-					break;
-				}
-
-			case RuntimeManagement::GameMode::OddOrEven:
-				{
-					User::currentCapitalAmm += User::currentBetAmm * 3;
-					break;
-				}
 
 
-		}
-
-
+		User::currentCapitalAmm += User::currentBetAmm * game::CurrentGameModeEarningsMultiplier();
 		std::cout <<
 			"Earned " << User::currentBetAmm * 2 << " cash. " << User::currentCapitalAmm << " remain!\n\n";
+
 	}
 
 	void PayCapital()

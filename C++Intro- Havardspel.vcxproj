@@ -144,6 +144,7 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="RollADice.cpp" />
     <ClCompile Include="RuntimeManager.cpp" />
+    <ClCompile Include="StatisticsManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Hasardspel.h" />
@@ -151,6 +152,7 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="RollADice.h" />
     <ClInclude Include="RuntimeManager.h" />
+    <ClInclude Include="StatisticsManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

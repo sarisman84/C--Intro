@@ -1,5 +1,5 @@
 #include "Hasardspel.h"
-#include"RollADice.h"
+#include"StatisticsManager.h"
 #include "OddOrEven.h"
 
 
@@ -163,15 +163,20 @@ void Engine::OnGameRuntime()
 					}
 				case game::GameState::Won:
 					{
-
-						User::EarnCapital(game::currentGameMode);
+						User::hasUserWon = true;
+						Statistics::SaveCurrentGameStatistics();
+						User::EarnCapital();
+						Statistics::PrintCurrentStatistics();
 						game::OnGameEndMenu("Game Won! Congrats!");
 
 						break;
 					}
 				case game::GameState::Lost:
 					{
+						User::hasUserWon = false;
+						Statistics::SaveCurrentGameStatistics();
 						User::PayCapital();
+						Statistics::PrintCurrentStatistics();
 						if (User::HasCapital())
 						{
 							game::OnGameEndMenu("Game Lost! Shame!...");
