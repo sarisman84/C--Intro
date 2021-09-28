@@ -143,6 +143,7 @@
     <ClCompile Include="OddOrEven.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="RollADice.cpp" />
+    <ClCompile Include="RollADiceLite.cpp" />
     <ClCompile Include="RuntimeManager.cpp" />
     <ClCompile Include="StatisticsManager.cpp" />
   </ItemGroup>
@@ -151,6 +152,7 @@
     <ClInclude Include="OddOrEven.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="RollADice.h" />
+    <ClInclude Include="RollADiceLite.h" />
     <ClInclude Include="RuntimeManager.h" />
     <ClInclude Include="StatisticsManager.h" />
   </ItemGroup>

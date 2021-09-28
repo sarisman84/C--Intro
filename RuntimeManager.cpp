@@ -36,18 +36,20 @@ namespace RuntimeManagement
 
 		bool hasWonTooManyTimesInRollADice = User::HasEarningsReachedThreshold(1000, GameMode::RollADice);
 		bool hasWonTooManyTimesInOddOrEven = User::HasEarningsReachedThreshold(1000, GameMode::OddOrEven);
+		bool hasWonTooManyTimesInRollADiceLite = User::HasEarningsReachedThreshold(1000, GameMode::RollADiceLite);
 		system("CLS");
 		previousGameState = currentGameState;
 		std::cout << "Select a Game mode!\n";
 		//std::cout << "[RollADice|OddOrEven] ";
 		std::cout << "[" <<
 			(hasWonTooManyTimesInRollADice ? "Unavailable|" : "RollADice|") <<
-			(hasWonTooManyTimesInOddOrEven ? "Unavailable|" : "OddOrEven|") << "Menu|" << "Exit" << "]" << std::endl;
+			(hasWonTooManyTimesInOddOrEven ? "Unavailable|" : "OddOrEven|") <<
+			(hasWonTooManyTimesInRollADiceLite ? "Unavailable|" : "RollADiceLite|") << "Menu|" << "Exit" << "]" << std::endl;
 
 
 
 
-		std::string gameModeSelectionIndexes[] = { "rolladice", "oddoreven", "exit", "menu" };
+		std::string gameModeSelectionIndexes[] = { "rolladice","rolladicelite", "oddoreven", "exit", "menu"};
 		std::string userInput = User::GetUserInput(gameModeSelectionIndexes, 4);
 
 		errorMessage = "Invalid text detected. Please try again! (User Input:";
@@ -66,6 +68,10 @@ namespace RuntimeManagement
 		else if (userInput == "rolladice" && !hasWonTooManyTimesInRollADice)
 		{
 			currentGameMode = GameMode::RollADice;
+		}
+		else if (userInput == "rolladicelite" && !hasWonTooManyTimesInRollADiceLite)
+		{
+			currentGameMode = GameMode::RollADiceLite;
 		}
 		else if (userInput == "oddoreven" && !hasWonTooManyTimesInOddOrEven)
 		{
@@ -88,6 +94,8 @@ namespace RuntimeManagement
 				return 2;
 			case RuntimeManagement::GameMode::OddOrEven:
 				return 3;
+			case RuntimeManagement::GameMode::RollADiceLite:
+				return 4;
 			default:
 				return 1;
 
@@ -141,6 +149,7 @@ namespace RuntimeManagement
 
 	bool rollADice_firstPlaythrough = true;
 	bool oddOrEven_firstPlaythrough = true;
+	bool rollADiceLite_firstPlaythrough = true;
 
 	bool isCurrentUserNewToGameMode()
 	{
@@ -157,6 +166,11 @@ namespace RuntimeManagement
 				{
 					result = oddOrEven_firstPlaythrough;
 					oddOrEven_firstPlaythrough = false;
+				}
+			case GameMode::RollADiceLite:
+				{
+					result = rollADiceLite_firstPlaythrough;
+					rollADiceLite_firstPlaythrough = false;
 				}
 
 		}

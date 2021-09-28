@@ -48,6 +48,13 @@ namespace User
 					break;
 				}
 
+			case RuntimeManagement::GameMode::RollADiceLite:
+				{
+					multiplierOutput = "[x4]";
+					break;
+				}
+
+
 
 		}
 

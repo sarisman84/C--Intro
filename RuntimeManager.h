@@ -24,7 +24,8 @@ namespace RuntimeManagement
 	{
 		None,
 		RollADice,
-		OddOrEven
+		OddOrEven,
+		RollADiceLite
 	};
 
 

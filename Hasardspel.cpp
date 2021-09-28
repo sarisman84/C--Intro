@@ -23,7 +23,7 @@ namespace game = RuntimeManagement;
 
 void Engine::PrintIntroduction()
 {
-	std::cout << "Welcome to Scuffed Enjoyment AB's Casino Plaza, a place full of enjoyment and profit! \n";
+	std::cout << "Welcome to Scuffed Enjoyment AB's Twitch Casino, a place full of enjoyment and profit! \n";
 	std::cout << "Here you can play our wonderful gambling game to earn rewards! \n\n" << std::flush;
 	system("pause");
 	system("CLS");
@@ -99,11 +99,15 @@ void Engine::OnGameRuntime()
 							if (!game::isCurrentUserNewToGameMode())
 							{
 								std::cout << "What do you want to do?" << std::endl;
-								std::cout << "[Play|See Tutorial|Exit] ";
-								std::string menuSelectionOptions[] = { "play","p","see tutorial", "tutorial", "exit", "quit" };
-								std::string input = User::GetUserInput(menuSelectionOptions, 6);
-
-								if (input == "see tutorial" || input == "tutorial")
+								std::cout << "[Play|See Tutorial|Menu|Exit] ";
+								std::string menuSelectionOptions[] = { "play","p","see tutorial", "tutorial", "exit", "quit", "menu" };
+								std::string input = User::GetUserInput(menuSelectionOptions, 7);
+								if (input == "menu")
+								{
+									game::currentGameState = game::GameState::Menu;
+									break;
+								}
+								else if(input == "see tutorial" || input == "tutorial")
 								{
 									game::currentGameState = game::GameState::Tutorial;
 									break;
@@ -139,6 +143,11 @@ void Engine::OnGameRuntime()
 									OddOrEven::PlayGame();
 									break;
 								}
+							case game::GameMode::RollADiceLite:
+								{
+									RollADiceLite::PlayGame();
+									break;
+								}
 							case game::GameMode::None:
 								{
 									game::OnGameModeSelection();
@@ -150,17 +159,30 @@ void Engine::OnGameRuntime()
 					}
 				case game::GameState::Tutorial:
 					{
-						if (game::currentGameMode == game::GameMode::RollADice)
+						switch (game::currentGameMode)
 						{
-							std::string instructions[3];
-							RollADice::GetInstructions(instructions);
-							User::DisplayStringArrayToConsole(3, instructions);
-						}
-						else
-						{
-							std::string instructions[2];
-							OddOrEven::GetInstructions(instructions);
-							User::DisplayStringArrayToConsole(2, instructions);
+							case game::GameMode::RollADice:
+								{
+
+									std::string instructions[3];
+									RollADice::GetInstructions(instructions);
+									User::DisplayStringArrayToConsole(3, instructions);
+									break;
+								}
+							case game::GameMode::OddOrEven:
+								{
+									std::string instructions[2];
+									OddOrEven::GetInstructions(instructions);
+									User::DisplayStringArrayToConsole(2, instructions);
+									break;
+								}
+							case game::GameMode::RollADiceLite:
+								{
+									std::string instructions[3];
+									RollADiceLite::GetInstructions(instructions);
+									User::DisplayStringArrayToConsole(3, instructions);
+									break;
+								}
 						}
 						game::currentGameState = game::GameState::Play;
 						break;
@@ -189,9 +211,9 @@ void Engine::OnGameRuntime()
 						}
 						else
 						{
-							
+
 							game::currentGameState = game::GameState::Exit;
-						
+
 							std::cout << "Game Lost! Shame...";
 							system("pause");
 							system("CLS");

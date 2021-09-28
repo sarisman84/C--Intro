@@ -1,5 +1,5 @@
 #pragma once
-#include "RollADice.h"
+#include "RollADiceLite.h"
 namespace Statistics
 {
 	void PrintCurrentStatistics();
