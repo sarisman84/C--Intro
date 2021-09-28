@@ -32,8 +32,8 @@ namespace OddOrEven
 		bool result = AreDiceRollsGuessedCorrecly(guessedOutcome, firstDiceResult, secondDiceResult);
 		std::string printedResult = (result ? "Guessed correctly!" : "Guessed wrong!");
 		std::cout << printedResult << " Both dice rolls are " << (result ? "" : "not ") << (guessedOutcome == Outcome::Even ? "even" : "odd") << "!" << std::endl;
-		std::cout << "1st Dice: " << firstDiceResult << std::endl;
-		std::cout << "2nd Dice: " << secondDiceResult << std::endl << std::endl;
+		std::cout << "1st Dice: " << firstDiceResult << "->" << (firstDiceResult % 2 == 0 ? "Even" : "Odd") << std::endl;
+		std::cout << "2nd Dice: " << secondDiceResult << "->" << (secondDiceResult % 2 == 0 ? "Even" : "Odd") <<std::endl << std::endl;
 
 		game::currentGameState = result ? game::GameState::Won : game::GameState::Lost;
 	}
@@ -42,7 +42,7 @@ namespace OddOrEven
 	Outcome GetOutcomeFromInput()
 	{
 		std::string acceptableTerms[] = { "even", "odd" };
-		std::string userInput = User::GetUserInput(acceptableTerms, 4);
+		std::string userInput = User::GetUserInput(acceptableTerms, 2);
 
 		if (userInput == "NaN")
 		{

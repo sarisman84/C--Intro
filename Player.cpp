@@ -52,8 +52,9 @@ namespace User
 		if (User::IsBetAmmValid(userAssignedAmm) && !std::cin.fail())
 		{
 			User::currentBetAmm = userAssignedAmm;
+			User::currentCapitalAmm -= userAssignedAmm;
 			std::string output = "Assigned bet accepted! -> ";
-			if (User::currentBetAmm == User::currentCapitalAmm)
+			if (currentCapitalAmm == 0)
 			{
 				output = "Going all in i see! Ill allow it! -> ";
 			}
@@ -96,17 +97,17 @@ namespace User
 	void DisplayStringArrayToConsole(int anArraySize, std::string someInstructions[])
 	{
 		system("CLS");
-		for (int  x = 0; x < anArraySize; x++)
+		for (int x = 0; x < anArraySize; x++)
 		{
 			system("CLS");
 			for (int i = 0; i <= x; i++)
 			{
 				std::cout << someInstructions[i] << std::endl;
-				
+
 			}
 			system("pause");
 		}
-		
+
 		system("CLS");
 	}
 
@@ -118,12 +119,16 @@ namespace User
 			case RuntimeManagement::GameMode::RollADice:
 				{
 					User::currentCapitalAmm += User::currentBetAmm * 2;
+					std::cout <<
+						"Earned " << User::currentBetAmm * 2 << " cash. " << User::currentCapitalAmm << " remain!\n\n";
 					break;
 				}
 
 			case RuntimeManagement::GameMode::OddOrEven:
 				{
 					User::currentCapitalAmm += User::currentBetAmm * 3;
+					std::cout <<
+						"Earned " << User::currentBetAmm * 3 << " cash. " << User::currentCapitalAmm << " remain!\n\n";
 					break;
 				}
 
@@ -131,14 +136,11 @@ namespace User
 		}
 
 
-		std::cout <<
-			"Earned " << User::currentBetAmm * 2 << " cash. " << User::currentCapitalAmm << " remain!\n\n";
+		
 	}
 
 	void PayCapital()
 	{
-		User::currentCapitalAmm -= User::currentBetAmm;
-
 		std::cout << "Lost " << User::currentBetAmm << " cash. " << User::currentCapitalAmm << " remain!\n\n";
 	}
 
