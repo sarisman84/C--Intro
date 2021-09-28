@@ -3,6 +3,7 @@
 #include<algorithm>
 #include<random>
 #include<array>
+#include<string>
 
 namespace RuntimeManagement
 {
@@ -50,6 +51,9 @@ namespace RuntimeManagement
 	extern GameState previousGameState;
 	extern GameMode currentGameMode;
 	extern std::string errorMessage;
+
+
+	void DebugPrint(std::string someText);
 
 
 

@@ -4,9 +4,6 @@ namespace User
 {
 	extern int currentCapitalAmm;
 	extern int currentBetAmm;
-	extern int ammOfWinsInRollADice;
-	extern int ammOfWinsInOddOrEven;
-	extern int ammOfWinsInThirdGameMode;
 	extern bool hasUserWon;
 
 	bool IsBetAmmValid(int aBetAmm);
@@ -19,9 +16,8 @@ namespace User
 	std::string GetUserInput(std::string someAcceptablePhrases[], int anArraySize);
 	void PayCapital();
 	bool HasCapital();
-	void IncrementWinCounter();
-	void ReduceWinCounter();
-	bool HasWonTooManyTimes(int someLimit, RuntimeManagement::GameMode aGameMode);
+
+	bool HasEarningsReachedThreshold(int someLimit, RuntimeManagement::GameMode aGameMode);
 }
 
 

@@ -55,14 +55,7 @@ void Engine::OnGameRuntime()
 	if (isGameRunning)
 		while (isGameRunning)
 		{
-			if (!User::HasCapital())
-			{
 
-				game::currentGameState = game::GameState::Exit;
-				system("CLS");
-				std::cout << "You have ran out of cash! Proceeding to exit." << std::endl;
-				system("pause");
-			}
 
 			switch (game::currentGameState)
 			{
@@ -75,6 +68,15 @@ void Engine::OnGameRuntime()
 					}
 				case game::GameState::Menu:
 					{
+						if (!User::HasCapital())
+						{
+
+							game::currentGameState = game::GameState::Exit;
+							system("CLS");
+							std::cout << "You have ran out of cash! Proceeding to exit." << std::endl;
+							system("pause");
+						}
+
 						system("CLS");
 						game::previousGameState = game::currentGameState;
 						std::cout << "Current amount of cash: " << User::currentCapitalAmm << std::endl << std::endl;
@@ -165,10 +167,11 @@ void Engine::OnGameRuntime()
 					}
 				case game::GameState::Won:
 					{
+
+
 						User::hasUserWon = true;
-						User::IncrementWinCounter();
-						Statistics::SaveCurrentGameStatistics();
 						User::EarnCapital();
+						Statistics::SaveCurrentGameStatistics();
 						Statistics::PrintCurrentStatistics();
 						game::OnGameEndMenu("Game Won! Congrats!");
 
@@ -177,9 +180,8 @@ void Engine::OnGameRuntime()
 				case game::GameState::Lost:
 					{
 						User::hasUserWon = false;
-						User::ReduceWinCounter();
-						Statistics::SaveCurrentGameStatistics();
 						User::PayCapital();
+						Statistics::SaveCurrentGameStatistics();
 						Statistics::PrintCurrentStatistics();
 						if (User::HasCapital())
 						{
@@ -187,9 +189,17 @@ void Engine::OnGameRuntime()
 						}
 						else
 						{
+							
+							game::currentGameState = game::GameState::Exit;
+						
 							std::cout << "Game Lost! Shame...";
 							system("pause");
+							system("CLS");
+							std::cout << "You have ran out of cash! Proceeding to exit." << std::endl;
+							system("pause");
+
 						}
+
 						break;
 					}
 				case game::GameState::Exit:

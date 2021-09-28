@@ -33,29 +33,37 @@ namespace RuntimeManagement
 
 	void OnGameModeSelection()
 	{
-		
-		bool hasWonTooManyTimesInRollADice = User::HasWonTooManyTimes(3, GameMode::RollADice);
-		bool hasWonTooManyTimesInOddOrEven = User::HasWonTooManyTimes(3, GameMode::OddOrEven);
+
+		bool hasWonTooManyTimesInRollADice = User::HasEarningsReachedThreshold(1000, GameMode::RollADice);
+		bool hasWonTooManyTimesInOddOrEven = User::HasEarningsReachedThreshold(1000, GameMode::OddOrEven);
 		system("CLS");
 		previousGameState = currentGameState;
 		std::cout << "Select a Game mode!\n";
 		//std::cout << "[RollADice|OddOrEven] ";
 		std::cout << "[" <<
 			(hasWonTooManyTimesInRollADice ? "Unavailable|" : "RollADice|") <<
-			(hasWonTooManyTimesInOddOrEven ? "Unavailable|" : "OddOrEven|") << "]" << std::endl;
+			(hasWonTooManyTimesInOddOrEven ? "Unavailable|" : "OddOrEven|") << "Menu|" << "Exit" << "]" << std::endl;
 
 
 
 
-		std::string gameModeSelectionIndexes[] = { "rolladice", "oddoreven" };
-		std::string userInput = User::GetUserInput(gameModeSelectionIndexes, 2);
-	
+		std::string gameModeSelectionIndexes[] = { "rolladice", "oddoreven", "exit", "menu" };
+		std::string userInput = User::GetUserInput(gameModeSelectionIndexes, 4);
+
 		errorMessage = "Invalid text detected. Please try again! (User Input:";
 		errorMessage += userInput;
 		errorMessage += ")";
 
-		std::cout << userInput;
-		if (userInput == "rolladice" && !hasWonTooManyTimesInRollADice)
+
+		if (userInput == "menu")
+		{
+			currentGameState = GameState::Menu;
+		}
+		else if (userInput == "exit")
+		{
+			currentGameState = GameState::Exit;
+		}
+		else if (userInput == "rolladice" && !hasWonTooManyTimesInRollADice)
 		{
 			currentGameMode = GameMode::RollADice;
 		}
@@ -63,17 +71,12 @@ namespace RuntimeManagement
 		{
 			currentGameMode = GameMode::OddOrEven;
 		}
-		else if(!hasWonTooManyTimesInOddOrEven && !hasWonTooManyTimesInRollADice)
+		else if (!hasWonTooManyTimesInOddOrEven && !hasWonTooManyTimesInRollADice)
 		{
 			currentGameState = GameState::Error;
-			system("pause");
+
 		}
-		else
-		{
-			std::cout << "Potential cheater has been found. Proceeding to exit." << std::endl;
-			currentGameState = GameState::Exit;
-			system("pause");
-		}
+
 	}
 
 	int CurrentGameModeEarningsMultiplier()
@@ -96,15 +99,12 @@ namespace RuntimeManagement
 
 	void OnGameEndMenu(std::string aMenuMessage)
 	{
-		
-
-
 		std::cout << aMenuMessage;
 
-		if (User::HasWonTooManyTimes(3, currentGameMode))
+		if (User::HasEarningsReachedThreshold(1000, currentGameMode))
 		{
 			std::cout << std::endl;
-			std::cout << "You have won too many times in this game mode! Returning to menu!" << std::endl;
+			std::cout << "You have earned too much money from this gamemode! Returning to menu." << std::endl;
 			system("pause");
 			currentGameMode = GameMode::None;
 			currentGameState = GameState::Menu;
@@ -162,6 +162,11 @@ namespace RuntimeManagement
 		}
 
 		return result;
+	}
+
+	void DebugPrint(std::string someText)
+	{
+		std::cout << "[DebugLog]:" << someText << std::endl;
 	}
 
 

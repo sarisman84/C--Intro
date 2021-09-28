@@ -9,9 +9,10 @@ namespace User
 	std::string introductionMessage = "";
 	bool hasUserWon = false;
 
-	int ammOfWinsInRollADice = 0;
-	int ammOfWinsInOddOrEven = 0;
-	int ammOfWinsInThirdGameMode = 0;
+
+	int currentUserProfitInRollADice;
+	int currentUserProfitInOddOrEven;
+
 
 	bool IsBetAmmValid(int aBetAmm)
 	{
@@ -56,8 +57,10 @@ namespace User
 		if (User::IsBetAmmValid(userAssignedAmm) && !std::cin.fail())
 		{
 			User::currentBetAmm = userAssignedAmm;
+			User::currentCapitalAmm -= userAssignedAmm;
+
 			std::string output = "Assigned bet accepted! -> ";
-			if (User::currentBetAmm == User::currentCapitalAmm)
+			if (User::currentCapitalAmm <= 0)
 			{
 				output = "Going all in i see! Ill allow it! -> ";
 			}
@@ -116,19 +119,74 @@ namespace User
 
 	void EarnCapital()
 	{
+		User::currentBetAmm = User::currentBetAmm * game::CurrentGameModeEarningsMultiplier();
+
+		User::currentCapitalAmm += User::currentBetAmm;
+
+		switch (game::currentGameMode)
+		{
+			case game::GameMode::RollADice:
+				{
+					currentUserProfitInRollADice += currentBetAmm;
+
+					break;
+				}
+
+			case game::GameMode::OddOrEven:
+				{
+					currentUserProfitInOddOrEven += currentBetAmm;
+
+					break;
+				}
 
 
-		User::currentCapitalAmm += User::currentBetAmm * game::CurrentGameModeEarningsMultiplier();
+		}
+
 		std::cout <<
-			"Earned " << User::currentBetAmm * 2 << " cash. " << User::currentCapitalAmm << " remain!\n\n";
+			"Earned " << User::currentBetAmm << " cash. You have " << User::currentCapitalAmm << " cash now!\n\n";
 
+		if (HasEarningsReachedThreshold(500, game::currentGameMode))
+		{
+			std::cout << "Poggers, you managed to earn over 500 cash! Literal god. :D" << std::endl;
+		}
 	}
 
 	void PayCapital()
 	{
-		User::currentCapitalAmm -= User::currentBetAmm;
+		switch (game::currentGameMode)
+		{
+			case game::GameMode::RollADice:
+				{
+
+					currentUserProfitInRollADice -= currentBetAmm;
+					if (currentUserProfitInRollADice < 0)
+					{
+						currentUserProfitInRollADice = 0;
+					}
+
+					break;
+				}
+
+			case game::GameMode::OddOrEven:
+				{
+					currentUserProfitInOddOrEven -= currentBetAmm;
+					if (currentUserProfitInOddOrEven < 0)
+					{
+						currentUserProfitInOddOrEven = 0;
+					}
+
+					break;
+				}
+
+
+		}
 
 		std::cout << "Lost " << User::currentBetAmm << " cash. " << User::currentCapitalAmm << " remain!\n\n";
+
+		if (HasEarningsReachedThreshold(500, game::currentGameMode))
+		{
+			std::cout << "Massive sadge, loosing over 500 cash.. You'll recoupe. :)" << std::endl << std::endl;
+		}
 	}
 
 	int GetConstrainedNumericalUserInput(int aMinInputValue, int aMaxInputValue)
@@ -203,65 +261,16 @@ namespace User
 		return -200;
 	}
 
-	void IncrementWinCounter()
-	{
-		switch (game::currentGameMode)
-		{
-			case game::GameMode::RollADice:
-				{
-					ammOfWinsInRollADice++;
-					break;
-				}
-
-			case game::GameMode::OddOrEven:
-				{
-					ammOfWinsInOddOrEven++;
 
 
-					break;
-				}
-
-
-		}
-	}
-
-	void ReduceWinCounter()
-	{
-		switch (game::currentGameMode)
-		{
-			case game::GameMode::RollADice:
-				{
-					ammOfWinsInRollADice--;
-					if (ammOfWinsInRollADice < 0)
-					{
-						ammOfWinsInRollADice = 0;
-					}
-
-					break;
-				}
-
-			case game::GameMode::OddOrEven:
-				{
-					ammOfWinsInOddOrEven--;
-					if (ammOfWinsInOddOrEven < 0)
-					{
-						ammOfWinsInOddOrEven = 0;
-					}
-					break;
-				}
-
-
-		}
-	}
-
-	bool HasWonTooManyTimes(int someLimit, game::GameMode aGameMode)
+	bool HasEarningsReachedThreshold(int someLimit, game::GameMode aGameMode)
 	{
 		switch (aGameMode)
 		{
 			case game::GameMode::RollADice:
-				return ammOfWinsInRollADice >= someLimit;
+				return currentUserProfitInRollADice >= someLimit;
 			case game::GameMode::OddOrEven:
-				return ammOfWinsInOddOrEven >= someLimit;
+				return currentUserProfitInOddOrEven >= someLimit;
 			default:
 				return false;
 

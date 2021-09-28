@@ -23,7 +23,7 @@ namespace Statistics
 		for (int i = statisticListSize - 1; i > 0; i--)
 		{
 			int iNext = i - 1;
-			
+
 
 			if (iNext >= 0)
 			{
@@ -37,9 +37,7 @@ namespace Statistics
 		registedGameCompletions[0] = isGameCompleted;
 
 		registeredUserCapital[0] = User::currentCapitalAmm;
-		registeredUserEarnings[0] =
-			registedGameCompletions[0] == 1 ?
-			latestUserBet * game::CurrentGameModeEarningsMultiplier() : latestUserBet;
+		registeredUserEarnings[0] = latestUserBet;
 
 
 	}
