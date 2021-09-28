@@ -78,6 +78,8 @@ void Engine::OnGameRuntime()
 						system("CLS");
 						game::previousGameState = game::currentGameState;
 						std::cout << "Current amount of cash: " << User::currentCapitalAmm << std::endl << std::endl;
+						Statistics::PrintCurrentStatistics();
+						std::cout << std::endl;
 						std::cout << "What do you want to do?" << std::endl;
 						std::cout << "(Type the following to proceed)[Exit|Play] ";
 						std::string menuSelectionIndexes[] = { "play", "exit" };
@@ -164,6 +166,7 @@ void Engine::OnGameRuntime()
 				case game::GameState::Won:
 					{
 						User::hasUserWon = true;
+						User::IncrementWinCounter();
 						Statistics::SaveCurrentGameStatistics();
 						User::EarnCapital();
 						Statistics::PrintCurrentStatistics();
@@ -174,6 +177,7 @@ void Engine::OnGameRuntime()
 				case game::GameState::Lost:
 					{
 						User::hasUserWon = false;
+						User::ReduceWinCounter();
 						Statistics::SaveCurrentGameStatistics();
 						User::PayCapital();
 						Statistics::PrintCurrentStatistics();

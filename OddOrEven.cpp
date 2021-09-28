@@ -43,7 +43,7 @@ namespace OddOrEven
 	Outcome GetOutcomeFromInput()
 	{
 		std::string acceptableTerms[] = { "even", "odd" };
-		std::string userInput = User::GetUserInput(acceptableTerms, 4);
+		std::string userInput = User::GetUserInput(acceptableTerms, 2);
 
 		if (userInput == "NaN")
 		{

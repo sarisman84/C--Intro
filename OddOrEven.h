@@ -24,6 +24,8 @@ namespace OddOrEven
 	bool AreDiceRollsGuessedCorrecly(Outcome someGuessAtAnOutcome, int&aFirstDiceOutcome, int&aSecondDiceOutcome);
 	Outcome GetOutcomeFromInput();
 
+	
+
 
 
 }

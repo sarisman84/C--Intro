@@ -33,24 +33,45 @@ namespace RuntimeManagement
 
 	void OnGameModeSelection()
 	{
+		
+		bool hasWonTooManyTimesInRollADice = User::HasWonTooManyTimes(3, GameMode::RollADice);
+		bool hasWonTooManyTimesInOddOrEven = User::HasWonTooManyTimes(3, GameMode::OddOrEven);
 		system("CLS");
 		previousGameState = currentGameState;
 		std::cout << "Select a Game mode!\n";
-		std::cout << "[RollADice|OddOrEven] ";
+		//std::cout << "[RollADice|OddOrEven] ";
+		std::cout << "[" <<
+			(hasWonTooManyTimesInRollADice ? "Unavailable|" : "RollADice|") <<
+			(hasWonTooManyTimesInOddOrEven ? "Unavailable|" : "OddOrEven|") << "]" << std::endl;
+
+
+
+
 		std::string gameModeSelectionIndexes[] = { "rolladice", "oddoreven" };
 		std::string userInput = User::GetUserInput(gameModeSelectionIndexes, 2);
+	
+		errorMessage = "Invalid text detected. Please try again! (User Input:";
+		errorMessage += userInput;
+		errorMessage += ")";
+
 		std::cout << userInput;
-		if (userInput == "rolladice")
+		if (userInput == "rolladice" && !hasWonTooManyTimesInRollADice)
 		{
 			currentGameMode = GameMode::RollADice;
 		}
-		else if (userInput == "oddoreven")
+		else if (userInput == "oddoreven" && !hasWonTooManyTimesInOddOrEven)
 		{
 			currentGameMode = GameMode::OddOrEven;
 		}
-		else
+		else if(!hasWonTooManyTimesInOddOrEven && !hasWonTooManyTimesInRollADice)
 		{
 			currentGameState = GameState::Error;
+			system("pause");
+		}
+		else
+		{
+			std::cout << "Potential cheater has been found. Proceeding to exit." << std::endl;
+			currentGameState = GameState::Exit;
 			system("pause");
 		}
 	}
@@ -75,10 +96,22 @@ namespace RuntimeManagement
 
 	void OnGameEndMenu(std::string aMenuMessage)
 	{
+		
 
 
+		std::cout << aMenuMessage;
 
-		std::cout << aMenuMessage << "[Continue|Menu|Quit] ";
+		if (User::HasWonTooManyTimes(3, currentGameMode))
+		{
+			std::cout << std::endl;
+			std::cout << "You have won too many times in this game mode! Returning to menu!" << std::endl;
+			system("pause");
+			currentGameMode = GameMode::None;
+			currentGameState = GameState::Menu;
+			return;
+		}
+
+		std::cout << "[Continue|Menu|Quit] ";
 		std::string menuSelectionIndexes[] = { "continue", "c", "menu", "quit" };
 
 

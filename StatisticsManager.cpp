@@ -53,7 +53,7 @@ namespace Statistics
 			if (registedGameCompletions[i] != 0 && registeredUserCapital[i] != 0 && registeredUserEarnings[i] != 0)
 			{
 				bool hasPlayerWon = registedGameCompletions[i] == 1;
-				std::cout << i + 1 << ")Game:" << (hasPlayerWon ? "Won" : "Lost") << ". Capital " << (hasPlayerWon ? "Earned" : "Lost") << ": " << registeredUserEarnings[i] << ". Remaining Capital: " << registeredUserCapital[i] << std::endl;
+				std::cout << "[" << i + 1 << "]Game:" << (hasPlayerWon ? "Won" : "Lost") << ". Capital " << (hasPlayerWon ? "Earned" : "Lost") << ": " << registeredUserEarnings[i] << ". Remaining Capital: " << registeredUserCapital[i] << std::endl;
 			}
 
 		}

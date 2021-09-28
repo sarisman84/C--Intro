@@ -9,6 +9,10 @@ namespace User
 	std::string introductionMessage = "";
 	bool hasUserWon = false;
 
+	int ammOfWinsInRollADice = 0;
+	int ammOfWinsInOddOrEven = 0;
+	int ammOfWinsInThirdGameMode = 0;
+
 	bool IsBetAmmValid(int aBetAmm)
 	{
 		return aBetAmm > 1 && aBetAmm <= currentCapitalAmm;
@@ -155,32 +159,18 @@ namespace User
 
 	}
 
-	std::string GetUserInput(std::string someAcceptablePhrases[], int anArraySize)
+	std::string GetUserInput(std::string someAcceptablePhrases[], int anArraySize = 1)
 	{
 		std::string userInput;
 		std::cin >> userInput;
-		//Based of this article on how to get the size of an array: 
-		//https://www.educative.io/edpresso/how-to-find-the-length-of-an-array-in-cpp
-		//Doesnt work anymore..
-		//anArraySize = *(&acceptablePhrases + 1) - acceptablePhrases;
-
-		std::cout << anArraySize;
 
 		ToLower(userInput);
 
 		for (int i = 0; i < anArraySize; i++)
 		{
 			if (userInput == someAcceptablePhrases[i])
-			{
-				if (userInput == someAcceptablePhrases[i])
-				{
-					game::errorMessage = userInput;
-
-					return userInput;
-				}
-			}
+				return userInput;
 		}
-
 
 
 		userInput = "NaN";
@@ -211,5 +201,70 @@ namespace User
 		std::cin.clear();
 		std::cin.ignore(1000);
 		return -200;
+	}
+
+	void IncrementWinCounter()
+	{
+		switch (game::currentGameMode)
+		{
+			case game::GameMode::RollADice:
+				{
+					ammOfWinsInRollADice++;
+					break;
+				}
+
+			case game::GameMode::OddOrEven:
+				{
+					ammOfWinsInOddOrEven++;
+
+
+					break;
+				}
+
+
+		}
+	}
+
+	void ReduceWinCounter()
+	{
+		switch (game::currentGameMode)
+		{
+			case game::GameMode::RollADice:
+				{
+					ammOfWinsInRollADice--;
+					if (ammOfWinsInRollADice < 0)
+					{
+						ammOfWinsInRollADice = 0;
+					}
+
+					break;
+				}
+
+			case game::GameMode::OddOrEven:
+				{
+					ammOfWinsInOddOrEven--;
+					if (ammOfWinsInOddOrEven < 0)
+					{
+						ammOfWinsInOddOrEven = 0;
+					}
+					break;
+				}
+
+
+		}
+	}
+
+	bool HasWonTooManyTimes(int someLimit, game::GameMode aGameMode)
+	{
+		switch (aGameMode)
+		{
+			case game::GameMode::RollADice:
+				return ammOfWinsInRollADice >= someLimit;
+			case game::GameMode::OddOrEven:
+				return ammOfWinsInOddOrEven >= someLimit;
+			default:
+				return false;
+
+		}
 	}
 }
