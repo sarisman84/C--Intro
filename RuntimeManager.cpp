@@ -48,32 +48,33 @@ namespace RuntimeManagement
 
 
 
-
-		std::string gameModeSelectionIndexes[] = { "rolladice","rolladicelite", "oddoreven", "exit", "menu"};
-		std::string userInput = User::GetUserInput(gameModeSelectionIndexes, 4);
+		const std::string rollADiceGamemode = "rolladice", rollADiceLiteGamemode = "rolladicelite", oddorEvenGameMode = "oddoreven", exitButton = "exit", menuButton = "menu";
+		const int gameModeSelectionIndexesSize = 4;
+		std::string gameModeSelectionIndexes[] = { rollADiceGamemode,rollADiceLiteGamemode, oddorEvenGameMode, exitButton,menuButton };
+		std::string userInput = User::GetUserInput(gameModeSelectionIndexes, gameModeSelectionIndexesSize);
 
 		errorMessage = "Invalid text detected. Please try again! (User Input:";
 		errorMessage += userInput;
 		errorMessage += ")";
 
 
-		if (userInput == "menu")
+		if (userInput == menuButton)
 		{
 			currentGameState = GameState::Menu;
 		}
-		else if (userInput == "exit")
+		else if (userInput == exitButton)
 		{
 			currentGameState = GameState::Exit;
 		}
-		else if (userInput == "rolladice" && !hasWonTooManyTimesInRollADice)
+		else if (userInput == rollADiceGamemode && !hasWonTooManyTimesInRollADice)
 		{
 			currentGameMode = GameMode::RollADice;
 		}
-		else if (userInput == "rolladicelite" && !hasWonTooManyTimesInRollADiceLite)
+		else if (userInput == rollADiceLiteGamemode && !hasWonTooManyTimesInRollADiceLite)
 		{
 			currentGameMode = GameMode::RollADiceLite;
 		}
-		else if (userInput == "oddoreven" && !hasWonTooManyTimesInOddOrEven)
+		else if (userInput == oddorEvenGameMode && !hasWonTooManyTimesInOddOrEven)
 		{
 			currentGameMode = GameMode::OddOrEven;
 		}
@@ -87,19 +88,29 @@ namespace RuntimeManagement
 
 	int CurrentGameModeEarningsMultiplier()
 	{
+		int earningsMultiplier = 1;
 		switch (currentGameMode)
 		{
 
 			case RuntimeManagement::GameMode::RollADice:
-				return 2;
-			case RuntimeManagement::GameMode::OddOrEven:
-				return 3;
-			case RuntimeManagement::GameMode::RollADiceLite:
-				return 4;
-			default:
-				return 1;
+				{
+					earningsMultiplier = 2;
+					break;
+				}
 
+			case RuntimeManagement::GameMode::OddOrEven:
+				{
+					earningsMultiplier = 3;
+					break;
+				}
+
+			case RuntimeManagement::GameMode::RollADiceLite:
+				{
+					earningsMultiplier = 4;
+					break;
+				}
 		}
+		return earningsMultiplier;
 	}
 
 
@@ -120,21 +131,23 @@ namespace RuntimeManagement
 		}
 
 		std::cout << "[Continue|Menu|Quit] ";
-		std::string menuSelectionIndexes[] = { "continue", "c", "menu", "quit" };
+		const std::string menuContinue = "continue", menuContinueShortcut = "c", menuBack = "menu", menuQuit = "quit";
+
+		std::string menuSelectionIndexes[] = { menuContinue, menuContinueShortcut, menuBack, menuQuit };
+		const int menuSelectionIndexesSize = 4;
 
 
-
-		std::string userInput = User::GetUserInput(menuSelectionIndexes, 4);
-		if (userInput == "menu")
+		std::string userInput = User::GetUserInput(menuSelectionIndexes, menuSelectionIndexesSize);
+		if (userInput == menuBack)
 		{
 			currentGameMode = GameMode::None;
 			currentGameState = GameState::Menu;
 		}
-		else if (userInput == "continue" || userInput == "c")
+		else if (userInput == menuContinue || userInput == menuContinueShortcut)
 		{
 			currentGameState = GameState::Play;
 		}
-		else if (userInput == "quit")
+		else if (userInput == menuQuit)
 		{
 			currentGameState = GameState::Exit;
 		}

@@ -100,24 +100,35 @@ void Engine::OnGameRuntime()
 							{
 								std::cout << "What do you want to do?" << std::endl;
 								std::cout << "[Play|See Tutorial|Menu|Exit] ";
-								std::string menuSelectionOptions[] = { "play","p","see tutorial", "tutorial", "exit", "quit", "menu" };
-								std::string input = User::GetUserInput(menuSelectionOptions, 7);
-								if (input == "menu")
+								
+								const std::string playButton = "play";
+								const std::string playButtonShortcut = "p";
+								const std::string tutorialButton = "see tutorial";
+								const std::string tutorialButtonShortcut = "tutorial";
+								const std::string exitButton = "quit";
+								const std::string exitButtonAlt = "exit";
+								const std::string backButton = "menu";
+
+								const int menuSelectionOptionsSize = 7;
+
+								std::string menuSelectionOptions[] = { playButton,playButtonShortcut,tutorialButton, tutorialButtonShortcut, exitButton, exitButtonAlt, backButton };
+								std::string input = User::GetUserInput(menuSelectionOptions, menuSelectionOptionsSize);
+								if (input == backButton)
 								{
 									game::currentGameState = game::GameState::Menu;
 									break;
 								}
-								else if(input == "see tutorial" || input == "tutorial")
+								else if (input == tutorialButton || input == tutorialButtonShortcut)
 								{
 									game::currentGameState = game::GameState::Tutorial;
 									break;
 								}
-								else if (input == "exit" || input == "quit")
+								else if (input == exitButton || input == exitButtonAlt)
 								{
 									game::currentGameState = game::GameState::Exit;
 									break;
 								}
-								else if (input == "NaN")
+								else if (input == User::invalidInput)
 								{
 									game::currentGameState = game::GameState::Error;
 									break;
@@ -163,24 +174,26 @@ void Engine::OnGameRuntime()
 						{
 							case game::GameMode::RollADice:
 								{
-
-									std::string instructions[3];
+									const int instructionsSize = 3;
+									std::string instructions[instructionsSize];
 									RollADice::GetInstructions(instructions);
-									User::DisplayStringArrayToConsole(3, instructions);
+									User::DisplayStringArrayToConsole(instructionsSize, instructions);
 									break;
 								}
 							case game::GameMode::OddOrEven:
 								{
-									std::string instructions[2];
+									const int instructionsSize = 2;
+									std::string instructions[instructionsSize];
 									OddOrEven::GetInstructions(instructions);
-									User::DisplayStringArrayToConsole(2, instructions);
+									User::DisplayStringArrayToConsole(instructionsSize, instructions);
 									break;
 								}
 							case game::GameMode::RollADiceLite:
 								{
-									std::string instructions[3];
+									const int instructionsSize = 3;
+									std::string instructions[instructionsSize];
 									RollADiceLite::GetInstructions(instructions);
-									User::DisplayStringArrayToConsole(3, instructions);
+									User::DisplayStringArrayToConsole(instructionsSize, instructions);
 									break;
 								}
 						}

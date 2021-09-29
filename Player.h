@@ -5,6 +5,8 @@ namespace User
 	extern int currentCapitalAmm;
 	extern int currentBetAmm;
 	extern bool hasUserWon;
+	extern const std::string invalidInput;
+	extern const int invalidNumericalInput;
 
 	bool IsBetAmmValid(int aBetAmm);
 	bool TrySetABet(RuntimeManagement::GameMode aCurrentGameMode);

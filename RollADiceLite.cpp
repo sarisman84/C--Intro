@@ -4,7 +4,12 @@ namespace game = RuntimeManagement;
 
 namespace RollADiceLite
 {
-	void GetInstructions(std::string(&anArrayOfInstructions)[3])
+	const int instructionArraySize = 3;
+	const int minDiceRoll = 1, maxDiceRoll = 64;
+	const int maxAttempts = 5;
+	const int invalidUserInput = -2;
+
+	void GetInstructions(std::string(&anArrayOfInstructions)[instructionArraySize])
 	{
 		anArrayOfInstructions[0] = "The rules are simple!\n\n";
 		anArrayOfInstructions[1] = "Simply write a number of your choice when asked. Once you have written down a number, two dice rolls will thrown! \n";
@@ -28,13 +33,13 @@ namespace RollADiceLite
 		int generatedValue;
 		generatedValue = GenerateResult();
 		game::currentGameState = game::GameState::Lost;
-		while (attempts <= 5)
+		while (attempts <= maxAttempts)
 		{
 			std::cout << "Write down a number between 1 and 128: ";
-			int userInputValue = User::GetConstrainedNumericalUserInput(1, 128);
+			int userInputValue = User::GetConstrainedNumericalUserInput(minDiceRoll, maxDiceRoll + maxDiceRoll);
 			
 
-			if (userInputValue == -2)
+			if (userInputValue == invalidUserInput)
 			{
 				system("CLS");
 				game::errorMessage = "Inputed value is not between 1 and 128! Try again!";
@@ -67,8 +72,8 @@ namespace RollADiceLite
 
 	int GenerateResult()
 	{
-		int firstRoll = game::RandomNumber(1, 64);
-		int secondRoll = game::RandomNumber(1, 64);
+		int firstRoll = game::RandomNumber(minDiceRoll, maxDiceRoll);
+		int secondRoll = game::RandomNumber(minDiceRoll, maxDiceRoll);
 		return firstRoll + secondRoll;
 	}
 }

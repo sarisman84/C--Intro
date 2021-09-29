@@ -5,7 +5,8 @@ namespace game = RuntimeManagement;
 
 namespace OddOrEven
 {
-
+	const int instructionArraySize = 2;
+	const int minDiceRoll = 1, maxDiceRoll = 6;
 	void PlayGame()
 	{
 		User::hasUserWon = false;
@@ -42,22 +43,24 @@ namespace OddOrEven
 
 	Outcome GetOutcomeFromInput()
 	{
-		std::string acceptableTerms[] = { "even", "odd" };
-		std::string userInput = User::GetUserInput(acceptableTerms, 2);
+		const std::string evenOutcome = "even", oddOutcome = "odd";
+		const int acceptableTermsSize = 2;
+		std::string acceptableTerms[] = { evenOutcome, oddOutcome };
+		std::string userInput = User::GetUserInput(acceptableTerms, acceptableTermsSize);
 
-		if (userInput == "NaN")
+		if (userInput == User::invalidInput)
 		{
 			return Outcome::Invalid;
 		}
 
 
-		return  userInput == "even" ? Outcome::Even : userInput == "odd" ? Outcome::Odd : Outcome::Invalid;
+		return  userInput == evenOutcome ? Outcome::Even : userInput == oddOutcome ? Outcome::Odd : Outcome::Invalid;
 
 
 	}
 
 
-	void GetInstructions(std::string(&anArray)[2])
+	void GetInstructions(std::string(&anArray)[instructionArraySize])
 	{
 		anArray[0] = "The rules are simple!\n";
 		anArray[1] = "Simply write whenever or not the two dice rolls that were thrown are both even or odd!\n";
@@ -67,8 +70,8 @@ namespace OddOrEven
 
 	bool AreDiceRollsGuessedCorrecly(Outcome someGuessAtAnOverallOutcome, int& aFirstDiceOutcome, int& aSecondDiceOutcome)
 	{
-		int diceRoll1 = game::RandomNumber(1, 6);
-		int diceRoll2 = game::RandomNumber(1, 6);
+		int diceRoll1 = game::RandomNumber(minDiceRoll, maxDiceRoll);
+		int diceRoll2 = game::RandomNumber(minDiceRoll, maxDiceRoll);
 		aFirstDiceOutcome = diceRoll1;
 		aSecondDiceOutcome = diceRoll2;
 

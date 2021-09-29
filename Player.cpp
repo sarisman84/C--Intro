@@ -13,6 +13,10 @@ namespace User
 	int currentUserProfitInRollADice;
 	int currentUserProfitInOddOrEven;
 
+	const std::string invalidInput = "NaN";
+	const int invalidNumericalInput = -200;
+	const int reactionThresholdOnCapitalChange = 500;
+
 
 	bool IsBetAmmValid(int aBetAmm)
 	{
@@ -88,15 +92,17 @@ namespace User
 	void ConfirmInContinuingPlayingCurrentMode(std::string aGameModeName)
 	{
 		std::cout << "You are about to play " << aGameModeName << ". Continue? [Yes/No] ";
-		std::string contextPhrasesToSelect[] = { "yes", "no" };
-		std::string userInput = GetUserInput(contextPhrasesToSelect, 4);
+		const std::string answerYes = "yes", answerNo = "no";
+		const int contextPhrasesToSelectSize = 2;
+		std::string contextPhrasesToSelect[] = { answerYes, answerNo };
+		std::string userInput = GetUserInput(contextPhrasesToSelect, contextPhrasesToSelectSize);
 
-		if (userInput == "NaN")
+		if (userInput == invalidInput)
 		{
 			game::currentGameState = game::GameState::Error;
 			return;
 		}
-		else if (userInput == "no")
+		else if (userInput == answerNo)
 		{
 			game::currentGameState = game::GameState::Menu;
 			game::currentGameMode = game::GameMode::None;
@@ -152,7 +158,7 @@ namespace User
 		std::cout <<
 			"Earned " << User::currentBetAmm << " cash. You have " << User::currentCapitalAmm << " cash now!\n\n";
 
-		if (HasEarningsReachedThreshold(500, game::currentGameMode))
+		if (HasEarningsReachedThreshold(reactionThresholdOnCapitalChange, game::currentGameMode))
 		{
 			std::cout << "Poggers, you managed to earn over 500 cash! Literal god. :D" << std::endl;
 		}
@@ -190,7 +196,7 @@ namespace User
 
 		std::cout << "Lost " << User::currentBetAmm << " cash. " << User::currentCapitalAmm << " remain!\n\n";
 
-		if (HasEarningsReachedThreshold(500, game::currentGameMode))
+		if (HasEarningsReachedThreshold(reactionThresholdOnCapitalChange, game::currentGameMode))
 		{
 			std::cout << "Massive sadge, loosing over 500 cash.. You'll recoupe. :)" << std::endl << std::endl;
 		}
@@ -202,7 +208,7 @@ namespace User
 		std::cin >> userInput;
 		if (userInput < aMinInputValue || userInput > aMaxInputValue || std::cin.fail())
 		{
-			userInput = -200;
+			userInput = invalidNumericalInput;
 			std::cin.clear(); //Clears the stream buffer.
 			std::cin.ignore(1000); //Clears the input field.
 		}
@@ -238,7 +244,7 @@ namespace User
 		}
 
 
-		userInput = "NaN";
+		userInput = invalidInput;
 		return userInput;
 	}
 
@@ -265,7 +271,7 @@ namespace User
 
 		std::cin.clear();
 		std::cin.ignore(1000);
-		return -200;
+		return invalidNumericalInput;
 	}
 
 

@@ -5,7 +5,9 @@ namespace game = RuntimeManagement;
 
 namespace RollADice
 {
-
+	const int instructionArraySize = 3;
+	const int minDiceRoll = 1, maxDiceRoll = 6;
+	const int invalidUserInput = -2;
 	void PlayGame()
 	{
 		User::hasUserWon = false;
@@ -22,10 +24,10 @@ namespace RollADice
 		system("CLS");
 		std::cout << "Write down a number between 1 and 12: ";
 		game::errorMessage = "Invalid number (number is not between 1 and 12). Try again!";
-		int userInputValue = User::GetConstrainedNumericalUserInput(1, 12);
+		int userInputValue = User::GetConstrainedNumericalUserInput(minDiceRoll, maxDiceRoll + maxDiceRoll);
 		int generatedValue;
 
-		if (userInputValue == -2)
+		if (userInputValue == invalidUserInput)
 		{
 			game::errorMessage = "Inputed value is not between 1 and 12! Try again!";
 			game::currentGameState = static_cast<game::GameState>(userInputValue);
@@ -47,7 +49,7 @@ namespace RollADice
 
 
 
-	void GetInstructions(std::string(&anArray)[3])
+	void GetInstructions(std::string(&anArray)[instructionArraySize])
 	{
 		anArray[0] = "The rules are simple!\n\n";
 		anArray[1] = "Simply write a number of your choice when asked. Once you have written down a number, two dice rolls will thrown! \n";
@@ -56,8 +58,8 @@ namespace RollADice
 
 	int GenerateResult()
 	{
-		int firstRoll = game::RandomNumber(1, 6);
-		int secondRoll = game::RandomNumber(1, 6);
+		int firstRoll = game::RandomNumber(minDiceRoll, maxDiceRoll);
+		int secondRoll = game::RandomNumber(minDiceRoll, maxDiceRoll);
 		return firstRoll + secondRoll;
 	}
 }
