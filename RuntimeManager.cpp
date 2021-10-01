@@ -2,8 +2,12 @@
 
 namespace RuntimeManagement
 {
+
+	const int maximumEarningsThreshold = 1000;
 	//The below variables NEED to be defined for the compiler to work.
 	//Source: https://stackoverflow.com/a/9702142/10483209
+
+
 
 	GameState currentGameState = GameState::Start;
 	GameState previousGameState = currentGameState;
@@ -34,9 +38,10 @@ namespace RuntimeManagement
 	void OnGameModeSelection()
 	{
 
-		bool hasWonTooManyTimesInRollADice = User::HasEarningsReachedThreshold(1000, GameMode::RollADice);
-		bool hasWonTooManyTimesInOddOrEven = User::HasEarningsReachedThreshold(1000, GameMode::OddOrEven);
-		bool hasWonTooManyTimesInRollADiceLite = User::HasEarningsReachedThreshold(1000, GameMode::RollADiceLite);
+		bool hasWonTooManyTimesInRollADice = User::HasEarningsReachedThreshold(maximumEarningsThreshold, GameMode::RollADice);
+		bool hasWonTooManyTimesInOddOrEven = User::HasEarningsReachedThreshold(maximumEarningsThreshold, GameMode::OddOrEven);
+		bool hasWonTooManyTimesInRollADiceLite = User::HasEarningsReachedThreshold(maximumEarningsThreshold, GameMode::RollADiceLite);
+		bool hasWonTooManyTimesInGuessADoor = User::HasEarningsReachedThreshold(maximumEarningsThreshold, GameMode::GuessADoor);
 		system("CLS");
 		previousGameState = currentGameState;
 		std::cout << "Select a Game mode!\n";
@@ -44,13 +49,19 @@ namespace RuntimeManagement
 		std::cout << "[" <<
 			(hasWonTooManyTimesInRollADice ? "Unavailable|" : "RollADice|") <<
 			(hasWonTooManyTimesInOddOrEven ? "Unavailable|" : "OddOrEven|") <<
-			(hasWonTooManyTimesInRollADiceLite ? "Unavailable|" : "RollADiceLite|") << "Menu|" << "Exit" << "]" << std::endl;
+			(hasWonTooManyTimesInRollADiceLite ? "Unavailable|" : "RollADiceLite|") <<
+			(hasWonTooManyTimesInGuessADoor ? "Unavailable|" : "GuessADoor|") << "Menu|" << "Exit" << "]" << std::endl;
 
 
 
-		const std::string rollADiceGamemode = "rolladice", rollADiceLiteGamemode = "rolladicelite", oddorEvenGameMode = "oddoreven", exitButton = "exit", menuButton = "menu";
-		const int gameModeSelectionIndexesSize = 4;
-		std::string gameModeSelectionIndexes[] = { rollADiceGamemode,rollADiceLiteGamemode, oddorEvenGameMode, exitButton,menuButton };
+		const std::string rollADiceGamemode = "rolladice";
+		const std::string rollADiceLiteGamemode = "rolladicelite";
+		const std::string oddorEvenGamemode = "oddoreven";
+		const std::string guesssADoorGamemode = "guessadoor";
+		const std::string exitButton = "exit";
+		const std::string menuButton = "menu";
+		const int gameModeSelectionIndexesSize = 6;
+		std::string gameModeSelectionIndexes[] = { rollADiceGamemode,rollADiceLiteGamemode, oddorEvenGamemode, guesssADoorGamemode, exitButton,menuButton };
 		std::string userInput = User::GetUserInput(gameModeSelectionIndexes, gameModeSelectionIndexesSize);
 
 		errorMessage = "Invalid text detected. Please try again! (User Input:";
@@ -60,6 +71,7 @@ namespace RuntimeManagement
 
 		if (userInput == menuButton)
 		{
+
 			currentGameState = GameState::Menu;
 		}
 		else if (userInput == exitButton)
@@ -74,9 +86,13 @@ namespace RuntimeManagement
 		{
 			currentGameMode = GameMode::RollADiceLite;
 		}
-		else if (userInput == oddorEvenGameMode && !hasWonTooManyTimesInOddOrEven)
+		else if (userInput == oddorEvenGamemode && !hasWonTooManyTimesInOddOrEven)
 		{
 			currentGameMode = GameMode::OddOrEven;
+		}
+		else if (userInput == guesssADoorGamemode && !hasWonTooManyTimesInGuessADoor)
+		{
+			currentGameMode = GameMode::GuessADoor;
 		}
 		else if (!hasWonTooManyTimesInOddOrEven && !hasWonTooManyTimesInRollADice)
 		{
@@ -109,6 +125,11 @@ namespace RuntimeManagement
 					earningsMultiplier = 4;
 					break;
 				}
+			case RuntimeManagement::GameMode::GuessADoor:
+				{
+					earningsMultiplier = 5;
+					break;
+				}
 		}
 		return earningsMultiplier;
 	}
@@ -120,7 +141,7 @@ namespace RuntimeManagement
 	{
 		std::cout << aMenuMessage;
 
-		if (User::HasEarningsReachedThreshold(1000, currentGameMode))
+		if (User::HasEarningsReachedThreshold(maximumEarningsThreshold, currentGameMode))
 		{
 			std::cout << std::endl;
 			std::cout << "You have earned too much money from this gamemode! Returning to menu." << std::endl;
@@ -163,6 +184,7 @@ namespace RuntimeManagement
 	bool rollADice_firstPlaythrough = true;
 	bool oddOrEven_firstPlaythrough = true;
 	bool rollADiceLite_firstPlaythrough = true;
+	bool guessADoor_firstPlaythrough = true;
 
 	bool isCurrentUserNewToGameMode()
 	{
@@ -173,17 +195,26 @@ namespace RuntimeManagement
 				{
 					result = rollADice_firstPlaythrough;
 					rollADice_firstPlaythrough = false;
+					break;
 				}
 
 			case GameMode::OddOrEven:
 				{
 					result = oddOrEven_firstPlaythrough;
 					oddOrEven_firstPlaythrough = false;
+					break;
 				}
 			case GameMode::RollADiceLite:
 				{
 					result = rollADiceLite_firstPlaythrough;
 					rollADiceLite_firstPlaythrough = false;
+					break;
+				}
+			case GameMode::GuessADoor:
+				{
+					result = guessADoor_firstPlaythrough;
+					guessADoor_firstPlaythrough = false;
+					break;
 				}
 
 		}

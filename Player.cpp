@@ -12,6 +12,8 @@ namespace User
 
 	int currentUserProfitInRollADice;
 	int currentUserProfitInOddOrEven;
+	int currentUserProfitInRollADiceLite;
+	int currentUserProfitInGuessADoor;
 
 	const std::string invalidInput = "NaN";
 	const int invalidNumericalInput = -200;
@@ -34,33 +36,9 @@ namespace User
 		system("CLS");
 		std::cout << "Current amount of cash: " << currentCapitalAmm << "\n";
 
-		std::string multiplierOutput;
-
-		switch (aCurrentGameMode)
-		{
-
-			case RuntimeManagement::GameMode::RollADice:
-				{
-					multiplierOutput = "[x2]";
-					break;
-				}
+		std::string multiplierOutput = "[x" + std::to_string(game::CurrentGameModeEarningsMultiplier()) + "]";
 
 
-			case RuntimeManagement::GameMode::OddOrEven:
-				{
-					multiplierOutput = "[x3]";
-					break;
-				}
-
-			case RuntimeManagement::GameMode::RollADiceLite:
-				{
-					multiplierOutput = "[x4]";
-					break;
-				}
-
-
-
-		}
 
 		std::cout << "Bet an amount of cash (" << multiplierOutput << "cash amount upon winning!):";
 		int userAssignedAmm;
@@ -113,17 +91,23 @@ namespace User
 
 
 
-	void DisplayStringArrayToConsole(int anArraySize, std::string someInstructions[])
-	{
-		system("CLS");
-		for (int x = 0; x < anArraySize; x++)
-		{
-			system("CLS");
-			for (int i = 0; i <= x; i++)
-			{
-				std::cout << someInstructions[i] << std::endl;
 
-			}
+
+
+	void DisplayStringArrayToConsole(std::array<std::string, 20> someInstructions)
+	{
+		std::string displayMessage;
+		system("CLS");
+		for (auto beg = someInstructions.begin(); beg != someInstructions.end(); ++beg)
+		{
+			if (*beg == "") continue;
+			system("CLS");
+			displayMessage += *beg;
+
+
+			std::cout << displayMessage << std::endl;
+
+
 			system("pause");
 		}
 
@@ -141,14 +125,23 @@ namespace User
 			case game::GameMode::RollADice:
 				{
 					currentUserProfitInRollADice += currentBetAmm;
-
 					break;
 				}
 
 			case game::GameMode::OddOrEven:
 				{
 					currentUserProfitInOddOrEven += currentBetAmm;
+					break;
+				}
 
+			case game::GameMode::RollADiceLite:
+				{
+					currentUserProfitInRollADiceLite += currentBetAmm;
+					break;
+				}
+			case game::GameMode::GuessADoor:
+				{
+					currentUserProfitInGuessADoor += currentBetAmm;
 					break;
 				}
 
@@ -186,6 +179,29 @@ namespace User
 					if (currentUserProfitInOddOrEven < 0)
 					{
 						currentUserProfitInOddOrEven = 0;
+					}
+
+					break;
+				}
+
+			case game::GameMode::RollADiceLite:
+				{
+
+					currentUserProfitInRollADiceLite -= currentBetAmm;
+					if (currentUserProfitInRollADiceLite < 0)
+					{
+						currentUserProfitInRollADiceLite = 0;
+					}
+
+					break;
+				}
+
+			case game::GameMode::GuessADoor:
+				{
+					currentUserProfitInGuessADoor -= currentBetAmm;
+					if (currentUserProfitInGuessADoor < 0)
+					{
+						currentUserProfitInGuessADoor = 0;
 					}
 
 					break;
@@ -284,6 +300,10 @@ namespace User
 				return currentUserProfitInRollADice >= someLimit;
 			case game::GameMode::OddOrEven:
 				return currentUserProfitInOddOrEven >= someLimit;
+			case game::GameMode::RollADiceLite:
+				return currentUserProfitInGuessADoor >= someLimit;
+			case game::GameMode::GuessADoor:
+				return currentUserProfitInRollADiceLite >= someLimit;
 			default:
 				return false;
 

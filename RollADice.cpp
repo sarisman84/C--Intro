@@ -8,6 +8,13 @@ namespace RollADice
 	const int instructionArraySize = 3;
 	const int minDiceRoll = 1, maxDiceRoll = 6;
 	const int invalidUserInput = -2;
+	std::array<std::string, 20> userInstructions = {
+		"The rules are simple!\n\n",
+		"Simply write a number of your choice when asked. Once you have written down a number, two dice rolls will thrown between " + std::to_string(minDiceRoll) + " and " + std::to_string(maxDiceRoll) + "! \n",
+		"If the resulting number of these two dice rolls is the same as what you have written down, you win the game! \n\n"
+	};
+
+
 	void PlayGame()
 	{
 		User::hasUserWon = false;
@@ -49,12 +56,7 @@ namespace RollADice
 
 
 
-	void GetInstructions(std::string(&anArray)[instructionArraySize])
-	{
-		anArray[0] = "The rules are simple!\n\n";
-		anArray[1] = "Simply write a number of your choice when asked. Once you have written down a number, two dice rolls will thrown! \n";
-		anArray[2] = "If the resulting number of these two dice rolls is the same as what you have written down, you win the game! \n\n";
-	}
+
 
 	int GenerateResult()
 	{
@@ -62,6 +64,8 @@ namespace RollADice
 		int secondRoll = game::RandomNumber(minDiceRoll, maxDiceRoll);
 		return firstRoll + secondRoll;
 	}
+
+
 }
 
 

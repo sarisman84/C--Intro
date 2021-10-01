@@ -139,6 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="GuessADoor.cpp" />
     <ClCompile Include="Hasardspel.cpp" />
     <ClCompile Include="OddOrEven.cpp" />
     <ClCompile Include="Player.cpp" />
@@ -148,6 +149,7 @@
     <ClCompile Include="StatisticsManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="GuessADoor.h" />
     <ClInclude Include="Hasardspel.h" />
     <ClInclude Include="OddOrEven.h" />
     <ClInclude Include="Player.h" />

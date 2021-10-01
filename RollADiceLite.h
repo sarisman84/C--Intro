@@ -1,9 +1,13 @@
 #pragma once
-#include "RollADice.h"
+#include "Player.h"
 
 namespace RollADiceLite
 {
-	void GetInstructions(std::string(&anArrayOfInstructions)[3]);
+	
+
+
+	extern std::array<std::string, 20> userInstructions;
 	void PlayGame();
 	int GenerateResult();
+	
 }

@@ -12,6 +12,9 @@ namespace OddOrEven
 	then the user wins. Otherwise, the user looses.
 
 	*/
+	
+	
+
 	enum class Outcome
 	{
 		Odd,
@@ -20,11 +23,13 @@ namespace OddOrEven
 	};
 
 	void PlayGame();
-	void GetInstructions(std::string(&anArray)[2]);
-	bool AreDiceRollsGuessedCorrecly(Outcome someGuessAtAnOutcome, int&aFirstDiceOutcome, int&aSecondDiceOutcome);
+	extern std::array<std::string, 20> userInstructions;
+	bool AreDiceRollsGuessedCorrecly(Outcome someGuessAtAnOutcome, int& aFirstDiceOutcome, int& aSecondDiceOutcome);
 	Outcome GetOutcomeFromInput();
-
 	
+
+
+
 
 
 

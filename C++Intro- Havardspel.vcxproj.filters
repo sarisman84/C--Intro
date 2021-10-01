@@ -36,6 +36,9 @@
     <ClCompile Include="RollADiceLite.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="GuessADoor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Hasardspel.h">
@@ -57,6 +60,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="RollADiceLite.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GuessADoor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

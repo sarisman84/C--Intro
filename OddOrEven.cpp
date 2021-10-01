@@ -7,6 +7,13 @@ namespace OddOrEven
 {
 	const int instructionArraySize = 2;
 	const int minDiceRoll = 1, maxDiceRoll = 6;
+	std::array<std::string, 20> userInstructions = {
+		"The rules are simple!\n",
+		"Simply write whenever or not the two " + std::to_string(maxDiceRoll) + "sided dice rolls that were thrown are both even or odd!\n"
+
+	};
+
+
 	void PlayGame()
 	{
 		User::hasUserWon = false;
@@ -60,13 +67,7 @@ namespace OddOrEven
 	}
 
 
-	void GetInstructions(std::string(&anArray)[instructionArraySize])
-	{
-		anArray[0] = "The rules are simple!\n";
-		anArray[1] = "Simply write whenever or not the two dice rolls that were thrown are both even or odd!\n";
 
-
-	}
 
 	bool AreDiceRollsGuessedCorrecly(Outcome someGuessAtAnOverallOutcome, int& aFirstDiceOutcome, int& aSecondDiceOutcome)
 	{
@@ -95,4 +96,6 @@ namespace OddOrEven
 		return false;
 
 	}
+
+
 }

@@ -11,7 +11,8 @@ namespace User
 	bool IsBetAmmValid(int aBetAmm);
 	bool TrySetABet(RuntimeManagement::GameMode aCurrentGameMode);
 	void ConfirmInContinuingPlayingCurrentMode(std::string aGameModeName);
-	void DisplayStringArrayToConsole(int anArraySize, std::string someInstructions[]);
+
+	void DisplayStringArrayToConsole(std::array<std::string, 20> someInstructions);
 	void EarnCapital();
 	int GetConstrainedNumericalUserInput(int aMinInputValue, int aMaxInputValue);
 	int GetNumericalUserInput(int someAllowedValues[]);

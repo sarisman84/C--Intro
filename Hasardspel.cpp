@@ -1,6 +1,9 @@
 #include "Hasardspel.h"
 #include"StatisticsManager.h"
+#include "RollADiceLite.h"
+#include "RollADice.h"
 #include "OddOrEven.h"
+#include "GuessADoor.h"
 
 
 /*
@@ -100,7 +103,7 @@ void Engine::OnGameRuntime()
 							{
 								std::cout << "What do you want to do?" << std::endl;
 								std::cout << "[Play|See Tutorial|Menu|Exit] ";
-								
+
 								const std::string playButton = "play";
 								const std::string playButtonShortcut = "p";
 								const std::string tutorialButton = "see tutorial";
@@ -115,6 +118,7 @@ void Engine::OnGameRuntime()
 								std::string input = User::GetUserInput(menuSelectionOptions, menuSelectionOptionsSize);
 								if (input == backButton)
 								{
+									game::currentGameMode = game::GameMode::None;
 									game::currentGameState = game::GameState::Menu;
 									break;
 								}
@@ -159,6 +163,11 @@ void Engine::OnGameRuntime()
 									RollADiceLite::PlayGame();
 									break;
 								}
+							case game::GameMode::GuessADoor:
+								{
+									GuessADoor::PlayGame();
+									break;
+								}
 							case game::GameMode::None:
 								{
 									game::OnGameModeSelection();
@@ -174,26 +183,22 @@ void Engine::OnGameRuntime()
 						{
 							case game::GameMode::RollADice:
 								{
-									const int instructionsSize = 3;
-									std::string instructions[instructionsSize];
-									RollADice::GetInstructions(instructions);
-									User::DisplayStringArrayToConsole(instructionsSize, instructions);
+									User::DisplayStringArrayToConsole(RollADice::userInstructions);
 									break;
 								}
 							case game::GameMode::OddOrEven:
 								{
-									const int instructionsSize = 2;
-									std::string instructions[instructionsSize];
-									OddOrEven::GetInstructions(instructions);
-									User::DisplayStringArrayToConsole(instructionsSize, instructions);
+									User::DisplayStringArrayToConsole(OddOrEven::userInstructions);
 									break;
 								}
 							case game::GameMode::RollADiceLite:
 								{
-									const int instructionsSize = 3;
-									std::string instructions[instructionsSize];
-									RollADiceLite::GetInstructions(instructions);
-									User::DisplayStringArrayToConsole(instructionsSize, instructions);
+									User::DisplayStringArrayToConsole(RollADiceLite::userInstructions);
+									break;
+								}
+							case game::GameMode::GuessADoor:
+								{
+									User::DisplayStringArrayToConsole(GuessADoor::userInstructions);
 									break;
 								}
 						}

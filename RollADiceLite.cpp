@@ -8,13 +8,14 @@ namespace RollADiceLite
 	const int minDiceRoll = 1, maxDiceRoll = 64;
 	const int maxAttempts = 5;
 	const int invalidUserInput = -2;
+	std::array<std::string, 20> userInstructions = {
+	"The rules are simple!\n\n",
+	"Simply write a number of your choice when asked. Once you have written down a number, two dice rolls will thrown between " + std::to_string(minDiceRoll) + " and " + std::to_string(maxDiceRoll) + "!\n",
+	"If you have failed to guess what number it is, you have " + std::to_string(maxAttempts) + " more chances to guess again before loosing. We will tell you know close you are! \n\n"
 
-	void GetInstructions(std::string(&anArrayOfInstructions)[instructionArraySize])
-	{
-		anArrayOfInstructions[0] = "The rules are simple!\n\n";
-		anArrayOfInstructions[1] = "Simply write a number of your choice when asked. Once you have written down a number, two dice rolls will thrown! \n";
-		anArrayOfInstructions[2] = "If you have failed to guess what number it is, you have 5 more chances to guess again before loosing. We will tell you know close you are! \n\n";
-	}
+	};
+
+
 
 	void PlayGame()
 	{
@@ -37,7 +38,7 @@ namespace RollADiceLite
 		{
 			std::cout << "Write down a number between 1 and 128: ";
 			int userInputValue = User::GetConstrainedNumericalUserInput(minDiceRoll, maxDiceRoll + maxDiceRoll);
-			
+
 
 			if (userInputValue == invalidUserInput)
 			{
@@ -46,7 +47,7 @@ namespace RollADiceLite
 				game::currentGameState = game::GameState::Error;
 				return;
 			}
-		
+
 			if (generatedValue == userInputValue)
 			{
 				game::currentGameState = game::GameState::Won;
@@ -76,4 +77,6 @@ namespace RollADiceLite
 		int secondRoll = game::RandomNumber(minDiceRoll, maxDiceRoll);
 		return firstRoll + secondRoll;
 	}
+
+
 }
