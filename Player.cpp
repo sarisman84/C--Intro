@@ -142,6 +142,7 @@ namespace User
 			case game::GameMode::GuessADoor:
 				{
 					currentUserProfitInGuessADoor += currentBetAmm;
+
 					break;
 				}
 
@@ -301,9 +302,9 @@ namespace User
 			case game::GameMode::OddOrEven:
 				return currentUserProfitInOddOrEven >= someLimit;
 			case game::GameMode::RollADiceLite:
-				return currentUserProfitInGuessADoor >= someLimit;
-			case game::GameMode::GuessADoor:
 				return currentUserProfitInRollADiceLite >= someLimit;
+			case game::GameMode::GuessADoor:
+				return currentUserProfitInGuessADoor >= someLimit;
 			default:
 				return false;
 

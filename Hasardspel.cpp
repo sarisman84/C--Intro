@@ -207,7 +207,7 @@ void Engine::OnGameRuntime()
 					}
 				case game::GameState::Won:
 					{
-
+						game::previousGameState = game::currentGameState;
 
 						User::hasUserWon = true;
 						User::EarnCapital();
@@ -219,6 +219,8 @@ void Engine::OnGameRuntime()
 					}
 				case game::GameState::Lost:
 					{
+						game::previousGameState = game::currentGameState;
+
 						User::hasUserWon = false;
 						User::PayCapital();
 						Statistics::SaveCurrentGameStatistics();

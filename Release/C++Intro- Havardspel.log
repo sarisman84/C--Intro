@@ -1,0 +1,19 @@
+﻿  GuessADoor.cpp
+D:\Projects\C++\C--Intro\GuessADoor.cpp(38,21): warning C4018: '<': signed/unsigned mismatch
+D:\Projects\C++\C--Intro\GuessADoor.cpp(58,23): warning C4018: '<': signed/unsigned mismatch
+  Hasardspel.cpp
+D:\Projects\C++\C--Intro\StatisticsManager.h(2,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+D:\Projects\C++\C--Intro\OddOrEven.h(2,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+  OddOrEven.cpp
+D:\Projects\C++\C--Intro\OddOrEven.h(2,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+  Player.cpp
+  RollADice.cpp
+  RollADiceLite.cpp
+  RuntimeManager.cpp
+  StatisticsManager.cpp
+D:\Projects\C++\C--Intro\StatisticsManager.h(2,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+  Generating code
+  Previous IPDB not found, fall back to full compilation.
+  All 273 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  Finished generating code
+  C++Intro- Havardspel.vcxproj -> D:\Projects\C++\C--Intro\Release\C++Intro- Havardspel.exe

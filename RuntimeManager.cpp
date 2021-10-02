@@ -94,11 +94,7 @@ namespace RuntimeManagement
 		{
 			currentGameMode = GameMode::GuessADoor;
 		}
-		else if (!hasWonTooManyTimesInOddOrEven && !hasWonTooManyTimesInRollADice)
-		{
-			currentGameState = GameState::Error;
 
-		}
 
 	}
 
@@ -110,7 +106,7 @@ namespace RuntimeManagement
 
 			case RuntimeManagement::GameMode::RollADice:
 				{
-					earningsMultiplier = 2;
+					earningsMultiplier = 4;
 					break;
 				}
 
@@ -122,12 +118,12 @@ namespace RuntimeManagement
 
 			case RuntimeManagement::GameMode::RollADiceLite:
 				{
-					earningsMultiplier = 4;
+					earningsMultiplier = 3;
 					break;
 				}
 			case RuntimeManagement::GameMode::GuessADoor:
 				{
-					earningsMultiplier = 5;
+					earningsMultiplier = 2;
 					break;
 				}
 		}

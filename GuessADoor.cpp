@@ -79,7 +79,7 @@ namespace GuessADoor
 				break;
 			}
 
-			input--;
+			input--; //Offset the input so that it matches the indexes on the array.
 			if (input == chosenDoor)
 			{
 				system("cls");
