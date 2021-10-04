@@ -17,6 +17,7 @@ namespace User
 	int GetConstrainedNumericalUserInput(int aMinInputValue, int aMaxInputValue);
 	int GetNumericalUserInput(int someAllowedValues[]);
 	std::string GetUserInput(std::string someAcceptablePhrases[], int anArraySize);
+	std::string GetUserInput(std::array<std::string, 20> someAcceptablePhrases);
 	void PayCapital();
 	bool HasCapital();
 

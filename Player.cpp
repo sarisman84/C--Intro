@@ -242,7 +242,7 @@ namespace User
 
 		for (auto& letter : someValue)
 		{
-			letter = tolower(letter);
+			letter = std::tolower(letter);
 		}
 
 	}
@@ -256,6 +256,26 @@ namespace User
 
 		for (int i = 0; i < anArraySize; i++)
 		{
+			if (userInput == someAcceptablePhrases[i])
+				return userInput;
+		}
+
+
+		userInput = invalidInput;
+		return userInput;
+	}
+
+	std::string GetUserInput(std::array<std::string, 20> someAcceptablePhrases)
+	{
+		std::string userInput;
+		std::cin >> userInput;
+
+		ToLower(userInput);
+
+		for (int i = 0; i < someAcceptablePhrases.size(); i++)
+		{
+			if (someAcceptablePhrases[i] == "") continue;
+
 			if (userInput == someAcceptablePhrases[i])
 				return userInput;
 		}
