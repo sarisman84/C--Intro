@@ -14,10 +14,12 @@ namespace User
 	int currentUserProfitInOddOrEven;
 	int currentUserProfitInRollADiceLite;
 	int currentUserProfitInGuessADoor;
+	int currentUserProfitInRoullete;
+	int currentUserProfitInDebug;
 
 	const std::string invalidInput = "NaN";
 	const int invalidNumericalInput = -200;
-	const int reactionThresholdOnCapitalChange = 500;
+	const int reactionThresholdOnCapitalChange = 5000;
 
 
 	bool IsBetAmmValid(int aBetAmm)
@@ -61,8 +63,8 @@ namespace User
 		else
 		{
 			game::errorMessage = "Invalid bet amount! Try again!";
-			game::currentGameState = game::GameState::Error;
-			return false;
+			std::cout << game::errorMessage << std::endl;
+			return TrySetABet(aCurrentGameMode);
 		}
 		return false;
 	}
@@ -145,6 +147,16 @@ namespace User
 
 					break;
 				}
+			case game::GameMode::Debug:
+				{
+					currentUserProfitInDebug += currentBetAmm;
+					break;
+				}
+			case game::GameMode::Roullete:
+				{
+					currentUserProfitInRoullete += currentBetAmm;
+					break;
+				}
 
 
 		}
@@ -208,10 +220,29 @@ namespace User
 					break;
 				}
 
+			case game::GameMode::Debug:
+				{
+					currentUserProfitInDebug -= currentBetAmm;
+					if (currentUserProfitInDebug < 0)
+					{
+						currentUserProfitInDebug = 0;
+					}
+					break;
+				}
+			case game::GameMode::Roullete:
+				{
+					currentUserProfitInRoullete -= currentBetAmm;
+					if (currentUserProfitInRoullete < 0)
+					{
+						currentUserProfitInRoullete = 0;
+					}
+					break;
+				}
+
 
 		}
 
-		std::cout << "Lost " << User::currentBetAmm << " cash. " << User::currentCapitalAmm << " remain!\n\n";
+		std::cout << std::endl << "Lost " << User::currentBetAmm << " cash. " << User::currentCapitalAmm << " remain!\n\n";
 
 		if (HasEarningsReachedThreshold(reactionThresholdOnCapitalChange, game::currentGameMode))
 		{
@@ -227,9 +258,10 @@ namespace User
 		{
 			userInput = invalidNumericalInput;
 			std::cin.clear(); //Clears the stream buffer.
-			std::cin.ignore(1000); //Clears the input field.
+			std::cin.ignore(10000, '\n'); //Clears the input field.
 		}
 
+		std::cin.ignore(10000, '\n');
 		return userInput;
 	}
 
@@ -247,12 +279,29 @@ namespace User
 
 	}
 
+	void RemoveSpaces(std::string& someValue)
+	{
+		std::string newString = "";
+		for (auto& letter : someValue)
+		{
+			if (static_cast<int>(letter) != 32)
+			{
+				newString += letter;
+			}
+			
+		}
+		someValue = newString;
+
+		
+	}
+
 	std::string GetUserInput(std::string someAcceptablePhrases[], int anArraySize = 1)
 	{
 		std::string userInput;
-		std::cin >> userInput;
-
+		std::getline(std::cin, userInput);
+		RuntimeManagement::DebugPrint(userInput);
 		ToLower(userInput);
+		RemoveSpaces(userInput);
 
 		for (int i = 0; i < anArraySize; i++)
 		{
@@ -268,9 +317,10 @@ namespace User
 	std::string GetUserInput(std::array<std::string, 20> someAcceptablePhrases)
 	{
 		std::string userInput;
-		std::cin >> userInput;
-
+		std::getline(std::cin, userInput);
+		RuntimeManagement::DebugPrint(userInput);
 		ToLower(userInput);
+		RemoveSpaces(userInput);
 
 		for (int i = 0; i < someAcceptablePhrases.size(); i++)
 		{
@@ -318,13 +368,17 @@ namespace User
 		switch (aGameMode)
 		{
 			case game::GameMode::RollADice:
-				return currentUserProfitInRollADice >= someLimit;
+				return currentUserProfitInRollADice > someLimit;
 			case game::GameMode::OddOrEven:
-				return currentUserProfitInOddOrEven >= someLimit;
+				return currentUserProfitInOddOrEven > someLimit;
 			case game::GameMode::RollADiceLite:
-				return currentUserProfitInRollADiceLite >= someLimit;
+				return currentUserProfitInRollADiceLite > someLimit;
 			case game::GameMode::GuessADoor:
-				return currentUserProfitInGuessADoor >= someLimit;
+				return currentUserProfitInGuessADoor > someLimit;
+			case game::GameMode::Debug:
+				return currentUserProfitInDebug > someLimit;
+			case game::GameMode::Roullete:
+				return currentUserProfitInDebug > someLimit;
 			default:
 				return false;
 

@@ -26,7 +26,9 @@ namespace RuntimeManagement
 		RollADice,
 		OddOrEven,
 		RollADiceLite,
-		GuessADoor
+		GuessADoor,
+		Roullete,
+		Debug
 	};
 
 

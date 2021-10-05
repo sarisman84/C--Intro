@@ -1,7 +1,7 @@
 #pragma once
 #include "Player.h"
 
-namespace Roullete
+namespace Roulette
 {
 	enum class BetType
 	{
@@ -17,5 +17,8 @@ namespace Roullete
 	void PlayGame();
 	extern std::array<std::string, 20> userInstructions;
 	bool TryGuessANumber();
+	bool TryGuessASplit();
 	bool TrySelectBetType(BetType &aValidBetType);
+	int GetValidatedNumberThatIsAdjacent(int anOriginPoint, int aNewNumber);
+	int GetBetMultiplier();
 }

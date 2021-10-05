@@ -3,10 +3,10 @@
 
 namespace game = RuntimeManagement;
 
-namespace Roullete
+namespace Roulette
 {
-	const int roulleteStartingNumber = 0;
-	const int roulleteNumberAmm = 36;
+	const int rouletteStartingNumber = 0;
+	const int rouletteNumberAmm = 36;
 	const int roulleteRowAmm = 12;
 	const int roulleteCollumAmm = 3;
 
@@ -38,13 +38,13 @@ namespace Roullete
 	void PlayGame()
 	{
 
-
+		system("cls");
 
 		User::currentBetAmm = 0;
 		game::errorMessage = "Invalid bet option! Try again!";
 
 
-		if (TrySelectBetType(currentBetType))
+		if (!TrySelectBetType(currentBetType))
 		{
 			game::currentGameState = game::GameState::Error;
 			return;
@@ -59,18 +59,19 @@ namespace Roullete
 
 		switch (currentBetType)
 		{
-			case Roullete::BetType::Straight:
+			case Roulette::BetType::Straight:
 				User::hasUserWon = TryGuessANumber();
 				break;
-			case Roullete::BetType::Split:
+			case Roulette::BetType::Split:
+				User::hasUserWon = TryGuessASplit();
 				break;
-			case Roullete::BetType::Corner:
+			case Roulette::BetType::Corner:
 				break;
-			case Roullete::BetType::OddOrEven:
+			case Roulette::BetType::OddOrEven:
 				break;
-			case Roullete::BetType::Column:
+			case Roulette::BetType::Column:
 				break;
-			case Roullete::BetType::RedOrBlack:
+			case Roulette::BetType::RedOrBlack:
 				break;
 
 
@@ -79,11 +80,56 @@ namespace Roullete
 		game::currentGameState = User::hasUserWon ? game::GameState::Won : game::GameState::Lost;
 	}
 
+	bool TryGuessASplit()
+	{
+		system("cls");
+		std::cout << "Select two adjacent numbers between " << rouletteStartingNumber << " and " << rouletteNumberAmm << ".\nFirst Number:";
+		int firstNumber = User::GetConstrainedNumericalUserInput(0, rouletteNumberAmm);
+
+		if (firstNumber == User::invalidNumericalInput)
+		{
+			std::cout << game::errorMessage << std::endl;
+			system("pause");
+			return TryGuessASplit();
+		}
+		std::cout << "Second Number:";
+		int secondNumber = GetValidatedNumberThatIsAdjacent(firstNumber, User::GetConstrainedNumericalUserInput(0, rouletteNumberAmm));
+	
+	}
+
+	int GetValidatedNumberThatIsAdjacent(int anOriginPoint, int aNewNumber)
+	{
+		
+		if (aNewNumber == User::invalidNumericalInput) return User::invalidNumericalInput;
+
+
+
+
+
+	}
+
+
+	int Find(std::array<std::array<int, 3>, 12> aBoard, int aNumberToCompare, int &aFoundColumnIndex, int &aFoundRowIndex)
+	{
+		for (int i = 0; i < aBoard.size(); i++)
+		{
+			for (int x = 0; x < aBoard[i].size(); x++)
+			{
+				if (aBoard[i][x] == aNumberToCompare)
+				{
+					aFoundColumnIndex = i;
+					aFoundRowIndex = x;
+					return aBoard[i][x];
+				}
+			}
+		}
+	}
+
 
 	bool TryGuessANumber()
 	{
 		system("cls");
-		std::cout << "Select a number between " << roulleteStartingNumber << " and " << roulleteNumberAmm << ": ";
+		std::cout << "Select a number between " << rouletteStartingNumber << " and " << rouletteNumberAmm << ": ";
 		int userInput = User::GetConstrainedNumericalUserInput(0, 36);
 		if (userInput == User::invalidNumericalInput)
 		{
@@ -92,18 +138,19 @@ namespace Roullete
 			return TryGuessANumber();
 		}
 
-		userInput--;
-
-		if (userInput < 0)
-		{
-			userInput = 0;
-		}
-
-
 		int verticalRoll = game::RandomNumber(0, 11);
 		int horizontalRoll = game::RandomNumber(0, 2);
 
 		int resultingRoll = roulleteBoard[verticalRoll][horizontalRoll];
+
+		std::cout << "Number rolled: " << resultingRoll << "\nUser guess: " << userInput << std::endl;
+		system("pause");
+
+
+		return userInput == resultingRoll;
+
+
+
 
 
 
@@ -111,7 +158,7 @@ namespace Roullete
 
 	bool TrySelectBetType(BetType& aValidBetType)
 	{
-		std::cout << "How do you want to bet?" << std::endl;
+		std::cout << "How do you want to bet?[Straight|Split|RedOrBlack|OddOrEven|Column]: " << std::endl;
 
 		const std::string straightBet = "straight";
 		const std::string splitBet = "split";
@@ -154,6 +201,28 @@ namespace Roullete
 
 		return true;
 
+	}
+
+	int GetBetMultiplier()
+	{
+		switch (currentBetType)
+		{
+			case Roulette::BetType::Straight:
+				return 10;
+			case Roulette::BetType::Split:
+				return 3;
+			case Roulette::BetType::Corner:
+				return 3;
+			case Roulette::BetType::OddOrEven:
+				return 2;
+			case Roulette::BetType::Column:
+				return 3;
+			case Roulette::BetType::RedOrBlack:
+				return 2;
+			default:
+				return 1;
+
+		}
 	}
 
 

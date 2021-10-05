@@ -4,6 +4,7 @@
 #include "RollADice.h"
 #include "OddOrEven.h"
 #include "GuessADoor.h"
+#include "Roullete.h"
 
 
 /*
@@ -168,9 +169,36 @@ void Engine::OnGameRuntime()
 									GuessADoor::PlayGame();
 									break;
 								}
+							case game::GameMode::Roullete:
+								{
+									Roulette::PlayGame();
+									break;
+								}
 							case game::GameMode::None:
 								{
 									game::OnGameModeSelection();
+									break;
+								}
+							case game::GameMode::Debug:
+								{
+									system("cls");
+									const std::string testHardLimit = "testhardlimit", testSoftLimit = "testsoftlimit";
+									
+									std::cout << "[DebugMode]: Testing {HasEarningsReachedThreshold} - [Test Hard Limit| Test Soft Limit]:";
+									
+									
+									std::array<std::string, 20> debugSelection = { testHardLimit , testSoftLimit };
+									std::string userInput = User::GetUserInput(debugSelection);
+
+									if (userInput == User::invalidInput)
+									{
+										game::currentGameState = game::GameState::Error;
+										break;
+									}
+
+									int testEarningsAmm = userInput == testHardLimit ? 11000 : 550;
+									game::currentGameState = game::GameState::Won;
+									User::currentBetAmm = testEarningsAmm;
 									break;
 								}
 
@@ -199,6 +227,11 @@ void Engine::OnGameRuntime()
 							case game::GameMode::GuessADoor:
 								{
 									User::DisplayStringArrayToConsole(GuessADoor::userInstructions);
+									break;
+								}
+							case game::GameMode::Roullete:
+								{
+									User::DisplayStringArrayToConsole(Roulette::userInstructions);
 									break;
 								}
 						}

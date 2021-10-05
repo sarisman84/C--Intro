@@ -1,9 +1,9 @@
-#include "Player.h"
+#include "Roullete.h"
 
 namespace RuntimeManagement
 {
 
-	const int maximumEarningsThreshold = 1000;
+	const int maximumEarningsThreshold = 10000;
 	//The below variables NEED to be defined for the compiler to work.
 	//Source: https://stackoverflow.com/a/9702142/10483209
 
@@ -42,6 +42,8 @@ namespace RuntimeManagement
 		bool hasWonTooManyTimesInOddOrEven = User::HasEarningsReachedThreshold(maximumEarningsThreshold, GameMode::OddOrEven);
 		bool hasWonTooManyTimesInRollADiceLite = User::HasEarningsReachedThreshold(maximumEarningsThreshold, GameMode::RollADiceLite);
 		bool hasWonTooManyTimesInGuessADoor = User::HasEarningsReachedThreshold(maximumEarningsThreshold, GameMode::GuessADoor);
+		bool hasWonTooManyTimesInRoullete = User::HasEarningsReachedThreshold(maximumEarningsThreshold, GameMode::Roullete);
+		bool hasWonToManyTimesInDebug = User::HasEarningsReachedThreshold(maximumEarningsThreshold, GameMode::Debug);
 		system("CLS");
 		previousGameState = currentGameState;
 		std::cout << "Select a Game mode!\n";
@@ -50,19 +52,21 @@ namespace RuntimeManagement
 			(hasWonTooManyTimesInRollADice ? "Unavailable|" : "RollADice|") <<
 			(hasWonTooManyTimesInOddOrEven ? "Unavailable|" : "OddOrEven|") <<
 			(hasWonTooManyTimesInRollADiceLite ? "Unavailable|" : "RollADiceLite|") <<
-			(hasWonTooManyTimesInGuessADoor ? "Unavailable|" : "GuessADoor|") << "Menu|" << "Exit" << "]" << std::endl;
+			(hasWonTooManyTimesInGuessADoor ? "Unavailable|" : "GuessADoor|") <<
+			(hasWonTooManyTimesInRoullete ? "Unavailable|" : "Roullete|") << "Menu|" << "Exit" << "]" << std::endl;
 
 
 
 		const std::string rollADiceGamemode = "rolladice";
 		const std::string rollADiceLiteGamemode = "rolladicelite";
 		const std::string oddorEvenGamemode = "oddoreven";
-		const std::string guesssADoorGamemode = "guessadoor";
+		const std::string guessADoorGamemode = "guessadoor";
+		const std::string roulleteGamemode = "roullete";
 		const std::string exitButton = "exit";
 		const std::string menuButton = "menu";
-		const int gameModeSelectionIndexesSize = 6;
-		std::string gameModeSelectionIndexes[] = { rollADiceGamemode,rollADiceLiteGamemode, oddorEvenGamemode, guesssADoorGamemode, exitButton,menuButton };
-		std::string userInput = User::GetUserInput(gameModeSelectionIndexes, gameModeSelectionIndexesSize);
+		const std::string debugButton = "debug";
+		std::array<std::string, 20> gameModeSelectionIndexes = { rollADiceGamemode,rollADiceLiteGamemode, oddorEvenGamemode, guessADoorGamemode, exitButton,menuButton, roulleteGamemode, debugButton };
+		std::string userInput = User::GetUserInput(gameModeSelectionIndexes);
 
 		errorMessage = "Invalid text detected. Please try again! (User Input:";
 		errorMessage += userInput;
@@ -90,9 +94,22 @@ namespace RuntimeManagement
 		{
 			currentGameMode = GameMode::OddOrEven;
 		}
-		else if (userInput == guesssADoorGamemode && !hasWonTooManyTimesInGuessADoor)
+		else if (userInput == roulleteGamemode && !hasWonTooManyTimesInRoullete)
+		{
+			currentGameMode = GameMode::Roullete;
+		}
+		else if (userInput == guessADoorGamemode && !hasWonTooManyTimesInGuessADoor)
 		{
 			currentGameMode = GameMode::GuessADoor;
+		}
+		else if (userInput == debugButton)
+		{
+			system("cls");
+			DebugPrint(std::string("Has Reached/Overtaken Hard Threshold ->" + hasWonToManyTimesInDebug
+				? "Yes" : "No"));
+			DebugPrint(std::string("Has Reached/Overtaken Soft Threshold ->" + User::HasEarningsReachedThreshold(500, currentGameMode) ? "Yes" : "No"));
+			system("pause");
+			currentGameMode = GameMode::Debug;
 		}
 
 
@@ -126,6 +143,11 @@ namespace RuntimeManagement
 					earningsMultiplier = 2;
 					break;
 				}
+			case RuntimeManagement::GameMode::Roullete:
+				{
+					earningsMultiplier = Roulette::GetBetMultiplier();
+					break;
+				}
 		}
 		return earningsMultiplier;
 	}
@@ -150,11 +172,8 @@ namespace RuntimeManagement
 		std::cout << "[Continue|Menu|Quit] ";
 		const std::string menuContinue = "continue", menuContinueShortcut = "c", menuBack = "menu", menuQuit = "quit";
 
-		std::string menuSelectionIndexes[] = { menuContinue, menuContinueShortcut, menuBack, menuQuit };
-		const int menuSelectionIndexesSize = 4;
-
-
-		std::string userInput = User::GetUserInput(menuSelectionIndexes, menuSelectionIndexesSize);
+		std::array<std::string, 20> menuSelectionIndexes = { menuContinue, menuContinueShortcut, menuBack, menuQuit };
+		std::string userInput = User::GetUserInput(menuSelectionIndexes);
 		if (userInput == menuBack)
 		{
 			currentGameMode = GameMode::None;
@@ -181,6 +200,7 @@ namespace RuntimeManagement
 	bool oddOrEven_firstPlaythrough = true;
 	bool rollADiceLite_firstPlaythrough = true;
 	bool guessADoor_firstPlaythrough = true;
+	bool roullete_firstPlaythrough = true;
 
 	bool isCurrentUserNewToGameMode()
 	{
@@ -210,6 +230,12 @@ namespace RuntimeManagement
 				{
 					result = guessADoor_firstPlaythrough;
 					guessADoor_firstPlaythrough = false;
+					break;
+				}
+			case GameMode::Roullete:
+				{
+					result = roullete_firstPlaythrough;
+					roullete_firstPlaythrough = false;
 					break;
 				}
 
