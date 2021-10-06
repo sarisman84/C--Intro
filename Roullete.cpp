@@ -55,6 +55,7 @@ namespace Roulette
 	};
 
 	BetType currentBetType;
+	NumberType chosenNumberType;
 
 
 	void PlayGame()
@@ -101,7 +102,7 @@ namespace Roulette
 				User::hasUserWon = TryGuessANumber();
 				break;
 			case Roulette::BetType::Split:
-				User::hasUserWon = TryGuessASplit();
+				User::hasUserWon = TryGuessTwoNumbersWithAConstraint();
 				break;
 			case Roulette::BetType::Corner:
 				break;
@@ -115,7 +116,7 @@ namespace Roulette
 
 		}
 
-		
+
 		std::cin.ignore(10000, '\n');
 		game::currentGameState = User::hasUserWon ? game::GameState::Won : game::GameState::Lost;
 	}
@@ -127,7 +128,7 @@ namespace Roulette
 		return true;
 	}
 
-	bool TryGuessASplit()
+	bool TryGuessTwoNumbersWithAConstraint()
 	{
 
 		system("cls");
@@ -140,7 +141,7 @@ namespace Roulette
 		{
 			std::cout << game::errorMessage << std::endl;
 			system("pause");
-			return TryGuessASplit();
+			return TryGuessTwoNumbersWithAConstraint();
 		}
 
 		SelectElementFromBoard(firstNumber, SelectionType::User);
@@ -162,14 +163,14 @@ namespace Roulette
 
 
 		int secondNumber = GetValidatedNumberThatIsAdjacent(foundLegalPositions, Search(rouletteBoard, User::GetConstrainedNumericalUserInput(rouletteStartingNumber, rouletteNumberAmm)));
-	
+
 
 
 		if (secondNumber == User::invalidNumericalInput)
 		{
 			std::cout << game::errorMessage << std::endl;
 			system("pause");
-			return TryGuessASplit();
+			return TryGuessTwoNumbersWithAConstraint();
 		}
 		SelectElementFromBoard(secondNumber, SelectionType::User);
 		int randomNumber = GetRandomNumberFromRoulette();
@@ -261,36 +262,39 @@ namespace Roulette
 					{User::invalidNumericalInput, User::invalidNumericalInput},
 					{User::invalidNumericalInput, User::invalidNumericalInput} }
 		};
+		const int y = aGridCoordinate[0];
+		const int x = aGridCoordinate[1];
+
 		switch (currentBetType)
 		{
 			case Roulette::BetType::Split:
 				{
 
 
-					int upperYIndex = aGridCoordinate[0] + 1;
-					int lowerYIndex = aGridCoordinate[0] - 1;
+					int upperYIndex = y + 1;
+					int lowerYIndex = y - 1;
 
-					int upperXIndex = aGridCoordinate[1] + 1;
-					int lowerXIndex = aGridCoordinate[1] - 1;
+					int upperXIndex = x + 1;
+					int lowerXIndex = x - 1;
 
 					if (upperYIndex < rouletteBoard.size())
 					{
-						result[0] = { upperYIndex, aGridCoordinate[1] };
+						result[0] = { upperYIndex, x };
 					}
 
 					if (lowerYIndex >= 0)
 					{
-						result[1] = { lowerYIndex, aGridCoordinate[1] };
+						result[1] = { lowerYIndex, x };
 					}
 
-					if (upperXIndex < rouletteBoard[aGridCoordinate[0]].size())
+					if (upperXIndex < rouletteBoard[y].size())
 					{
-						result[2] = { aGridCoordinate[0], upperXIndex };
+						result[2] = { y, upperXIndex };
 
 					}
 					if (lowerXIndex >= 0)
 					{
-						result[3] = { aGridCoordinate[0], lowerXIndex };
+						result[3] = { y, lowerXIndex };
 					}
 
 					break;
@@ -299,7 +303,36 @@ namespace Roulette
 			case Roulette::BetType::Corner:
 				break;
 			case Roulette::BetType::OddOrEven:
-				break;
+				{
+					
+						switch (chosenNumberType)
+						{
+							case NumberType::Odd:
+								{
+									if (x % 2 != 0 && y % 2 != 0)
+										result[0] = { y, x };
+									else if (x % 2 != 0)
+										result[0] = { -1, x };
+									else if (y % 2 != 0)
+										result[0] = { y, -1 };
+									break;
+								}
+							case NumberType::Even:
+								{
+									if (x % 2 == 0 && y % 2 == 0)
+										result[0] = { y, x };
+									else if (x % 2 == 0)
+										result[0] = { -1, x };
+									else if (y % 2 == 0)
+										result[0] = { y, -1 };
+									break;
+								}
+						}
+					
+
+					break;
+				}
+
 			case Roulette::BetType::Column:
 				break;
 			case Roulette::BetType::RedOrBlack:
@@ -434,6 +467,7 @@ namespace Roulette
 	bool TryGuessANumber()
 	{
 		system("cls");
+		DrawBoard();
 		std::cout << "Select a number between " << rouletteStartingNumber << " and " << rouletteNumberAmm << ": ";
 		int userInput = User::GetConstrainedNumericalUserInput(0, 36);
 		if (userInput == User::invalidNumericalInput)
@@ -442,11 +476,11 @@ namespace Roulette
 			system("pause");
 			return TryGuessANumber();
 		}
-
+		SelectElementFromBoard(userInput, SelectionType::User);
 
 
 		int resultingRoll = GetRandomNumberFromRoulette();
-
+		SelectElementFromBoard(resultingRoll, SelectionType::Game);
 		std::cout << "Number rolled: " << resultingRoll << "\nUser guess: " << userInput << std::endl;
 		system("pause");
 

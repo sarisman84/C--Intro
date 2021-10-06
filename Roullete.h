@@ -22,11 +22,21 @@ namespace Roulette
 		Invalid = -200
 	};
 
+	enum class NumberType
+	{
+		Odd,
+		Even,
+		Black,
+		Red
+	};
+
+	
+
 
 	void PlayGame();
 	extern std::array<std::string, 20> userInstructions;
 	bool TryGuessANumber();
-	bool TryGuessASplit();
+	bool TryGuessTwoNumbersWithAConstraint();
 	bool TryGuessACorner();
 	bool TrySelectBetType(BetType &aValidBetType);
 	int GetValidatedNumberThatIsAdjacent(std::array<std::array<int, 2>, 4> someLegalPositions, int aNewNumber);
