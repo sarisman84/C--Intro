@@ -1,5 +1,5 @@
 #include "Roullete.h"
-
+#include <Windows.h>
 
 namespace game = RuntimeManagement;
 
@@ -10,6 +10,15 @@ namespace Roulette
 	const int roulleteRowAmm = 12;
 	const int roulleteCollumAmm = 3;
 
+	const std::array<int, 6> rouletteCornerPairs = {
+			1,
+			4,
+			5,
+			8,
+			9,
+			12,
+	};
+
 
 	std::array<std::string, 20> userInstructions = {
 		"The rules are as follows!\n",
@@ -19,19 +28,19 @@ namespace Roulette
 	};
 
 	const std::array<std::array < int, 3>, 13> rouletteBoard = { {
-		{ 0, 0, 0},
-		{ 1, 2, 3},
-		{ 4, 5, 6},
-		{ 7, 8, 9},
-		{10,11,12},
-		{13,14,15},
-		{16,17,18},
-		{19,20,21},
-		{22,23,24},
-		{25,26,27},
-		{28,29,30},
-		{31,32,33},
-		{34,35,36}
+		{ 0, 0, 0}, //0 (Not counting)
+		{ 1, 2, 3}, //1 -
+		{ 4, 5, 6}, //2
+		{ 7, 8, 9}, //3
+		{10,11,12}, //4 -
+		{13,14,15}, //5 -
+		{16,17,18}, //6
+		{19,20,21}, //7
+		{22,23,24}, //8 -
+		{25,26,27}, //9 -
+		{28,29,30}, //10
+		{31,32,33}, //11
+		{34,35,36}  //12 -
 
 	}
 	};
@@ -54,11 +63,28 @@ namespace Roulette
    }
 	};
 
+	const std::array<std::array < NumberType, 3>, 13> rouletteBlackOrRedDef = { {
+		{NumberType::Red, NumberType::Red, NumberType::Red},
+		{NumberType::Red, NumberType::Black, NumberType::Red},
+		{NumberType::Black, NumberType::Red, NumberType::Black},
+		{NumberType::Red, NumberType::Black, NumberType::Red},
+		{NumberType::Black, NumberType::Black,  NumberType::Red},
+		{NumberType::Black,  NumberType::Red, NumberType::Black},
+		{NumberType::Red, NumberType::Black,  NumberType::Red},
+		{NumberType::Red,NumberType::Black,  NumberType::Red},
+		{NumberType::Black,  NumberType::Red, NumberType::Black},
+		{NumberType::Red, NumberType::Black, NumberType::Red},
+		{NumberType::Black,NumberType::Black,  NumberType::Red},
+		{NumberType::Black,  NumberType::Red, NumberType::Black},
+		{NumberType::Red, NumberType::Black,  NumberType::Red}
+
+   }
+	};
+
 	BetType currentBetType;
 	NumberType chosenNumberType;
 
-
-	void PlayGame()
+	void ResetBoard()
 	{
 		rouletteSelectionBoard = { {
 		{SelectionType::None, SelectionType::None, SelectionType::None},
@@ -77,6 +103,11 @@ namespace Roulette
 
    }
 		};
+	}
+	void PlayGame()
+	{
+		chosenNumberType = NumberType::None;
+		ResetBoard();
 		system("cls");
 
 		User::currentBetAmm = 0;
@@ -98,42 +129,36 @@ namespace Roulette
 
 		switch (currentBetType)
 		{
-			case Roulette::BetType::Straight:
-				User::hasUserWon = TryGuessANumber();
-				break;
-			case Roulette::BetType::Split:
-				User::hasUserWon = TryGuessTwoNumbersWithAConstraint();
-				break;
-			case Roulette::BetType::Corner:
-				break;
 			case Roulette::BetType::OddOrEven:
-				break;
-			case Roulette::BetType::Column:
-				break;
+			case Roulette::BetType::Straight:
 			case Roulette::BetType::RedOrBlack:
-				break;
-
-
+			case Roulette::BetType::Column:
+				{
+					User::hasUserWon = TryGuessANumber();
+					break;
+				}
+			case Roulette::BetType::Corner:
+			case Roulette::BetType::Split:
+				{
+					User::hasUserWon = TryGuessTwoNumbersWithAConstraint();
+					break;
+				}
 		}
 
 
+		std::cin.clear();
 		std::cin.ignore(10000, '\n');
 		game::currentGameState = User::hasUserWon ? game::GameState::Won : game::GameState::Lost;
 	}
 
-	bool TryGuessACorner()
-	{
-		system("cls");
-		std::cout << "Select one of four numbers that are adjacent to each other between " << rouletteStartingNumber << " and " << rouletteNumberAmm << ".\nFirst Number:";
-		return true;
-	}
+
 
 	bool TryGuessTwoNumbersWithAConstraint()
 	{
-
+		ResetBoard();
 		system("cls");
 		DrawBoard();
-		std::cout << "Select two adjacent numbers between " << rouletteStartingNumber << " and " << rouletteNumberAmm << ".\nFirst Number:";
+		std::cout << "Select two numbers that are adjacent to " << (currentBetType == BetType::Split ? "4" : "3") << " different numbers. Select a number between " << rouletteStartingNumber << " and " << rouletteNumberAmm << ".\nFirst Number:";
 		int firstNumber = Search(rouletteBoard, User::GetConstrainedNumericalUserInput(0, rouletteNumberAmm));
 
 
@@ -143,10 +168,22 @@ namespace Roulette
 			system("pause");
 			return TryGuessTwoNumbersWithAConstraint();
 		}
+		std::array<std::array<int, 2>, 12> foundLegalPositions = GetLegalPositions(firstNumber);
+
+
+		const int cornerSize = 4;
+		if (currentBetType == BetType::Corner)
+			for (int y = 0; y < foundLegalPositions.size(); y++)
+			{
+				if (IsPositionOutOfBounds(foundLegalPositions[y]) && y < cornerSize)
+				{
+					std::cout << game::errorMessage << std::endl;
+					system("pause");
+					return TryGuessTwoNumbersWithAConstraint();
+				}
+			}
 
 		SelectElementFromBoard(firstNumber, SelectionType::User);
-		std::array<std::array<int, 2>, 4> foundLegalPositions = GetLegalPositions(firstNumber);
-
 		for (int y = 0; y < foundLegalPositions.size(); y++)
 		{
 			if (IsPositionOutOfBounds(foundLegalPositions[y])) continue;
@@ -155,9 +192,11 @@ namespace Roulette
 		}
 
 
+
+
 		system("cls");
 		DrawBoard();
-		std::cout << "Select two adjacent numbers between " << rouletteStartingNumber << " and " << rouletteNumberAmm << ".\n";
+		std::cout << "Select two numbers that are adjacent to " << (currentBetType == BetType::Split ? "4" : "3") << " different numbers. Select a number between " << firstNumber << " and " << GetValueFromPosition(foundLegalPositions[3]) << ".\n";
 		std::cout << "Second Number:";
 
 
@@ -193,19 +232,19 @@ namespace Roulette
 	}
 
 
-	std::array<std::array<int, 2>, 4> GetLegalPositions(int anOriginPoint)
+	std::array<std::array<int, 2>, 12> GetLegalPositions(int anOriginPoint)
 	{
-		std::array<int, 2> anOriginPointGridPos = GetIndex(rouletteBoard, anOriginPoint);
+		std::array<int, 2> anOriginPointGridPos = GetPositionOfElement(rouletteBoard, anOriginPoint);
 		return GetLegalNumbers(anOriginPointGridPos);
 	}
 
-	int GetValidatedNumberThatIsAdjacent(std::array<std::array<int, 2>, 4> someLegalPositions, int aNewNumber)
+	int GetValidatedNumberThatIsAdjacent(std::array<std::array<int, 2>, 12> someLegalPositions, int aNewNumber)
 	{
 
 		if (aNewNumber == User::invalidNumericalInput) return User::invalidNumericalInput;
 
 
-		std::array<int, 2> aNewNumberGridPos = GetIndex(rouletteBoard, aNewNumber);
+		std::array<int, 2> aNewNumberGridPos = GetPositionOfElement(rouletteBoard, aNewNumber);
 
 		for (int legalIndex = 0; legalIndex < someLegalPositions.size(); legalIndex++)
 		{
@@ -235,7 +274,7 @@ namespace Roulette
 		return User::invalidNumericalInput;
 	}
 
-	std::array<int, 2> GetIndex(std::array<std::array<int, 3>, 13> aBoard, int anElementToFindIndex)
+	std::array<int, 2> GetPositionOfElement(std::array<std::array<int, 3>, 13> aBoard, int anElementToFindIndex)
 	{
 		std::array<int, 2> result = { User::invalidNumericalInput, User::invalidNumericalInput };
 		for (int y = 0; y < aBoard.size(); y++)
@@ -254,13 +293,22 @@ namespace Roulette
 	}
 
 
-	std::array < std::array <int, 2>, 4 > GetLegalNumbers(std::array<int, 2> aGridCoordinate)
+	std::array < std::array <int, 2>, 12 > GetLegalNumbers(std::array<int, 2> aGridCoordinate)
 	{
-		std::array< std::array <int, 2>, 4> result = { {
+		std::array< std::array <int, 2>, 12> result = { {
 					{User::invalidNumericalInput, User::invalidNumericalInput },
 					{User::invalidNumericalInput, User::invalidNumericalInput},
 					{User::invalidNumericalInput, User::invalidNumericalInput},
-					{User::invalidNumericalInput, User::invalidNumericalInput} }
+					{User::invalidNumericalInput, User::invalidNumericalInput},
+					{User::invalidNumericalInput, User::invalidNumericalInput },
+					{User::invalidNumericalInput, User::invalidNumericalInput},
+					{User::invalidNumericalInput, User::invalidNumericalInput},
+					{User::invalidNumericalInput, User::invalidNumericalInput},
+					{User::invalidNumericalInput, User::invalidNumericalInput },
+					{User::invalidNumericalInput, User::invalidNumericalInput},
+					{User::invalidNumericalInput, User::invalidNumericalInput},
+					{User::invalidNumericalInput, User::invalidNumericalInput}
+			}
 		};
 		const int y = aGridCoordinate[0];
 		const int x = aGridCoordinate[1];
@@ -270,12 +318,11 @@ namespace Roulette
 			case Roulette::BetType::Split:
 				{
 
+					const int upperYIndex = y + 1;
+					const int lowerYIndex = y - 1;
 
-					int upperYIndex = y + 1;
-					int lowerYIndex = y - 1;
-
-					int upperXIndex = x + 1;
-					int lowerXIndex = x - 1;
+					const int upperXIndex = x + 1;
+					const int lowerXIndex = x - 1;
 
 					if (upperYIndex < rouletteBoard.size())
 					{
@@ -301,42 +348,65 @@ namespace Roulette
 				}
 
 			case Roulette::BetType::Corner:
-				break;
-			case Roulette::BetType::OddOrEven:
 				{
-					
-						switch (chosenNumberType)
-						{
-							case NumberType::Odd:
-								{
-									if (x % 2 != 0 && y % 2 != 0)
-										result[0] = { y, x };
-									else if (x % 2 != 0)
-										result[0] = { -1, x };
-									else if (y % 2 != 0)
-										result[0] = { y, -1 };
-									break;
-								}
-							case NumberType::Even:
-								{
-									if (x % 2 == 0 && y % 2 == 0)
-										result[0] = { y, x };
-									else if (x % 2 == 0)
-										result[0] = { -1, x };
-									else if (y % 2 == 0)
-										result[0] = { y, -1 };
-									break;
-								}
-						}
-					
+					for (int i = 0; i < rouletteCornerPairs.size(); i++)
+					{
+						const int bottomY = y + 3;
+						const int topY = y;
 
+						if (topY == rouletteCornerPairs[i])//If we are on the top side
+						{
+							if (x == 0) //If we are on the left side of the board
+							{
+								result[0] = { topY, x };
+								result[1] = { topY + 1, x };
+								result[2] = { topY, x + 1 };
+								result[3] = { topY + 1, x + 1 };
+							}
+							else if (x == rouletteBoard[topY].size() - 1)//If we are on the right side of the board
+							{
+								result[0] = { topY, x };
+								result[1] = { topY + 1, x };
+								result[2] = { topY, x - 1 };
+								result[3] = { topY + 1, x - 1 };
+							}
+							break;
+
+						}
+						else if (bottomY == rouletteCornerPairs[i])//If we are on the bottom side
+						{
+							if (x == 0) //If we are on the left side of the board
+							{
+								result[0] = { topY, x };
+								result[1] = { topY - 1, x };
+								result[2] = { topY, x + 1 };
+								result[3] = { topY - 1, x + 1 };
+							}
+							else if (x == rouletteBoard[bottomY].size() - 1)//If we are on the right side of the board
+							{
+								result[0] = { topY, x };
+								result[1] = { topY - 1, x };
+								result[2] = { topY, x - 1 };
+								result[3] = { topY - 1, x - 1 };
+							}
+							break;
+						}
+
+
+					}
 					break;
 				}
 
 			case Roulette::BetType::Column:
-				break;
-			case Roulette::BetType::RedOrBlack:
-				break;
+				{
+					for (int column = 1; column < rouletteBoard.size(); column++)
+					{
+						result[column - 1] = { column, x };
+					}
+					break;
+				}
+
+
 		}
 
 		return result;
@@ -349,25 +419,35 @@ namespace Roulette
 		const std::string userSelectionGraphic = "#";
 		const std::string gameSelectionGraphic = "X";
 
-		const std::string legalOptionSelectionGraphicL = "<";
-		const std::string legalOptionSelectionGraphicR = ">";
-		const std::string legalOptionSelectionGraphicMiddle = "I";
 
+		HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
+
+		const int whiteColor = 15;
+		const int pinkColor = 13;
+		const int cyanColor = 11;
+		const int greyColor = 8;
+		const int redColor = 12;
+		const int greenColor = 10;
+
+		SetConsoleTextAttribute(h, whiteColor);
 		switch (rouletteSelectionBoard[0][0])
 		{
 			case SelectionType::User:
 				{
+					SetConsoleTextAttribute(h, pinkColor);
 					std::cout << std::string("   [" + userSelectionGraphic + "]");
 					break;
 				}
 			case SelectionType::Game:
 				{
+					SetConsoleTextAttribute(h, cyanColor);
 					std::cout << std::string("   [" + gameSelectionGraphic + "]");
 					break;
 				}
 			case SelectionType::LegalOption:
 				{
-					std::cout << std::string("   " + legalOptionSelectionGraphicL + gameSelectionGraphic + legalOptionSelectionGraphicR);
+					SetConsoleTextAttribute(h, greenColor);
+					std::cout << std::string("   []");
 					break;
 				}
 			case SelectionType::None:
@@ -385,25 +465,46 @@ namespace Roulette
 			for (int x = 0; x < rouletteBoard[y].size(); x++)
 			{
 
+				switch (rouletteBlackOrRedDef[y][x])
+				{
+					case NumberType::Black:
+						{
+							SetConsoleTextAttribute(h, greyColor);
+							break;
+						}
+
+					case NumberType::Red:
+						{
+							SetConsoleTextAttribute(h, redColor);
+							break;
+						}
+
+				}
+
+
 				if (x == 0)
 				{
-					std::cout << (rouletteSelectionBoard[y][x] == SelectionType::LegalOption ? (y < singleDigidElements ? " " + legalOptionSelectionGraphicL : legalOptionSelectionGraphicL) : (y < singleDigidElements ? " [" : "["));
+					std::cout << (y < singleDigidElements ? " [" : "[");
 				}
 				switch (rouletteSelectionBoard[y][x])
 				{
 					case SelectionType::User:
 						{
+							SetConsoleTextAttribute(h, pinkColor);
 							std::cout << userSelectionGraphic;
 							break;
 						}
 					case SelectionType::Game:
 						{
+							SetConsoleTextAttribute(h, cyanColor);
 							std::cout << (y < singleDigidElements ? gameSelectionGraphic : " " + gameSelectionGraphic);
 							break;
 						}
 					case SelectionType::None:
 					case SelectionType::LegalOption:
 						{
+							if (rouletteSelectionBoard[y][x] == SelectionType::LegalOption)
+								SetConsoleTextAttribute(h, greenColor);
 							std::cout << std::to_string(rouletteBoard[y][x]);
 							break;
 						}
@@ -412,19 +513,20 @@ namespace Roulette
 				if (x == rouletteBoard[y].size() - 1)
 				{
 
-					std::cout << (rouletteSelectionBoard[y][x] == SelectionType::LegalOption ? legalOptionSelectionGraphicR : "]");
+					std::cout << "]";
 				}
 				else
 				{
 
-					const int xNext = x + 1;
-					std::cout << (rouletteSelectionBoard[y][x] == SelectionType::LegalOption || (x == 0 && rouletteSelectionBoard[y][xNext] == SelectionType::LegalOption) ? legalOptionSelectionGraphicMiddle : "|");
+					
+					std::cout << "|";
 
 
 
 
 				}
 			}
+			SetConsoleTextAttribute(h, whiteColor);
 			std::cout << std::endl;
 		}
 	}
@@ -442,7 +544,7 @@ namespace Roulette
 		}
 
 
-		std::array<int, 2> numberPos = GetIndex(rouletteBoard, aNumberToSelect);
+		std::array<int, 2> numberPos = GetPositionOfElement(rouletteBoard, aNumberToSelect);
 		const int y = numberPos[0];
 		const int x = numberPos[1];
 		rouletteSelectionBoard[y][x] = aSelectionOwner;
@@ -466,32 +568,159 @@ namespace Roulette
 
 	bool TryGuessANumber()
 	{
+		ResetBoard();
 		system("cls");
-		DrawBoard();
-		std::cout << "Select a number between " << rouletteStartingNumber << " and " << rouletteNumberAmm << ": ";
-		int userInput = User::GetConstrainedNumericalUserInput(0, 36);
-		if (userInput == User::invalidNumericalInput)
+
+		switch (currentBetType)
 		{
-			std::cout << game::errorMessage << std::endl;
-			system("pause");
-			return TryGuessANumber();
+			case BetType::Column:
+			case Roulette::BetType::Straight:
+				{
+					DrawBoard();
+					int resultingRoll = GetRandomNumberFromRoulette();
+					SelectElementFromBoard(resultingRoll, SelectionType::Game);
+
+					std::cout << "Select a number between " << rouletteStartingNumber << " and " << rouletteNumberAmm << ": ";
+					int userInput = User::GetConstrainedNumericalUserInput(0, 36);
+					if (userInput == User::invalidNumericalInput)
+					{
+						std::cout << game::errorMessage << std::endl;
+						system("pause");
+						return TryGuessANumber();
+					}
+					SelectElementFromBoard(userInput, SelectionType::User);
+
+					if (currentBetType == BetType::Straight)
+					{
+						std::cout << "Number rolled: " << resultingRoll << "\nUser guess: " << userInput << std::endl;
+						system("pause");
+
+
+						return userInput == resultingRoll;
+					}
+					else
+					{
+						std::cout << "Number rolled: " << resultingRoll << std::endl;
+						std::array<std::array<int, 2>, 12> legalOptions = GetLegalPositions(resultingRoll);
+
+						const int selectedColumn = legalOptions[0][1];
+
+
+						for (int i = 0; i < legalOptions.size(); i++)
+						{
+							if (IsPositionOutOfBounds(legalOptions[i])) continue;
+
+							int value = GetValueFromPosition(legalOptions[i]);
+							SelectElementFromBoard(value, value == userInput ? SelectionType::Game : SelectionType::LegalOption);
+							if (value == userInput)
+							{
+								DrawBoard();
+								return true;
+							}
+
+						}
+						DrawBoard();
+						std::cout << "Guessed wrong! The" << (selectedColumn == 0 ? " left " : selectedColumn == rouletteBoard[0].size() - 1 ? " right " : " middle ") << "column was chosen!" << std::endl;
+						return false;
+					}
+					break;
+
+				}
+
+
+			case Roulette::BetType::OddOrEven:
+			case Roulette::BetType::RedOrBlack:
+				{
+					DrawBoard();
+					std::cout << "Make a guess on whether or not the resulting number is" << (currentBetType == BetType::OddOrEven ? " even or odd: " : " a red or a black number: ");
+
+
+					int resultingRoll = GetRandomNumberFromRoulette();
+					SelectElementFromBoard(resultingRoll, SelectionType::Game);
+
+
+
+
+					switch (currentBetType)
+					{
+
+						case Roulette::BetType::OddOrEven:
+							{
+
+
+								const std::string oddOption = "odd", evenOption = "even";
+
+								std::array < std::string, 20> oddOrEvenOptions = { oddOption, evenOption };
+								std::string userInput = User::GetUserInput(oddOrEvenOptions);
+
+
+								if (userInput == oddOption)
+								{
+									DrawBoard();
+									std::cout << (resultingRoll % 2 != 0 ? "The roll was guessed corretly! The number is odd! Result: " : "The roll was guessed incorrectly! The number is even! Result: ") << resultingRoll << std::endl;
+									return resultingRoll % 2 != 0;
+								}
+								else if (userInput == evenOption)
+								{
+									DrawBoard();
+									std::cout << (resultingRoll % 2 == 0 ? "The roll was guessed corretly! The number is even! Result:" : "The roll was guessed incorrectly! The number is odd! Result: ") << resultingRoll << std::endl;
+									return resultingRoll % 2 == 0;
+								}
+								else if (userInput == User::invalidInput)
+								{
+									return TryGuessANumber();
+								}
+								break;
+							}
+
+
+						case Roulette::BetType::RedOrBlack:
+							{
+
+								const std::string blackOption = "black", redOption = "red";
+
+								std::array < std::string, 20> blackOrRedOptions = { blackOption, redOption };
+								std::string userInput = User::GetUserInput(blackOrRedOptions);
+
+								if (userInput == User::invalidInput)
+								{
+									return TryGuessANumber();
+								}
+
+								chosenNumberType = userInput == blackOption ? NumberType::Black : userInput == redOption ? NumberType::Red : NumberType::None;
+
+
+								return chosenNumberType == GetNumberType(GetPositionOfElement(rouletteBoard, resultingRoll));
+
+								break;
+							}
+
+
+					}
+
+
+					return false;
+				}
+
+
+
+
+
+
 		}
-		SelectElementFromBoard(userInput, SelectionType::User);
 
 
-		int resultingRoll = GetRandomNumberFromRoulette();
-		SelectElementFromBoard(resultingRoll, SelectionType::Game);
-		std::cout << "Number rolled: " << resultingRoll << "\nUser guess: " << userInput << std::endl;
-		system("pause");
-
-
-		return userInput == resultingRoll;
+		return false;
 
 
 
 
+	}
 
 
+	NumberType GetNumberType(std::array<int, 2> aGridCoordinate)
+	{
+		return rouletteBlackOrRedDef[aGridCoordinate[0]][aGridCoordinate[1]];
 	}
 
 	bool TrySelectBetType(BetType& aValidBetType)
@@ -500,10 +729,10 @@ namespace Roulette
 
 		const std::string straightBet = "straight";
 		const std::string splitBet = "split";
-		const std::string columnBet = "corner";
+		const std::string cornerBet = "corner";
 		const std::string redOrBlackBet = "redorblack";
 		const std::string oddOrEvenBet = "oddoreven";
-		const std::string cornerBet = "column";
+		const std::string columnBet = "column";
 
 
 		const std::array<std::string, 20> betOptions = {

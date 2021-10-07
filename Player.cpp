@@ -318,7 +318,6 @@ namespace User
 	{
 		std::string userInput;
 		std::getline(std::cin, userInput);
-		RuntimeManagement::DebugPrint(userInput);
 		ToLower(userInput);
 		RemoveSpaces(userInput);
 

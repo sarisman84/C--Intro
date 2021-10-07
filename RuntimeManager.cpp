@@ -189,7 +189,11 @@ namespace RuntimeManagement
 		}
 		else
 		{
-			currentGameState = GameState::Error;
+			system("cls");
+			std::cout << errorMessage << std::endl;
+			system("pause");
+			OnGameEndMenu(aMenuMessage);
+			return;
 		}
 
 
