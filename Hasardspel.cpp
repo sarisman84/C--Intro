@@ -74,13 +74,13 @@ void OnGameRuntime()
 
 		case 1:
 		{
-			std::cout << "Write down a number between 1 and 12: ";
+			std::cout << "Write down a number between 2 and 12: ";
 			previousGameState = currentGameState;
 			userInputValue = ParseCommand(1, 12);
 
 			if (userInputValue == -2)
 			{
-				errorMessage = "Inputed value is not between 1 and 12! Try again!";
+				errorMessage = "Inputed value is not between 2 and 12! Try again!";
 				currentGameState = userInputValue;
 				system("CLS");
 				break;
@@ -143,9 +143,8 @@ int ParseCommand(int aMinInputValue, int aMaxInputValue)
 
 int GenerateResult()
 {
-	int firstRoll = rand() % 6 + 1;
-	int secondRoll = rand() % 6 + 1;
-	return firstRoll + secondRoll;
+	int firstRoll = rand() % 12 + 1;
+	return firstRoll;
 }
 
 int main()

@@ -72,3 +72,111 @@ Debug/vc142.pdb
 .vs/C\+\+Intro- Havardspel/v16/.suo
 
 .vs/C\+\+Intro- Havardspel/v16/Browse.VC.db-wal
+
+.vs/C\+\+Intro- Havardspel/v16/ipch/AutoPCH/1103341837af46fc/GUESSADOOR.ipch
+
+.vs/C\+\+Intro- Havardspel/v16/ipch/AutoPCH/19359d21d54e7231/PLAYER.ipch
+
+.vs/C\+\+Intro- Havardspel/v16/ipch/AutoPCH/2bf6147e688e5a1f/RUNTIMEMANAGER.ipch
+
+.vs/C\+\+Intro- Havardspel/v16/ipch/AutoPCH/2f52d47d97a9fcd8/RUNTIMEMANAGER.ipch
+
+.vs/C\+\+Intro- Havardspel/v16/ipch/AutoPCH/41795f7b9f17211b/ROULLETE.ipch
+
+.vs/C\+\+Intro- Havardspel/v16/ipch/AutoPCH/479a1a01bda6ef5/GUESSADOOR.ipch
+
+.vs/C\+\+Intro- Havardspel/v16/ipch/AutoPCH/49482a079dc32593/STATISTICSMANAGER.ipch
+
+.vs/C\+\+Intro- Havardspel/v16/ipch/AutoPCH/6488655e1cf02e69/ODDOREVEN.ipch
+
+.vs/C\+\+Intro- Havardspel/v16/ipch/AutoPCH/6afb99c7bd5624a4/ROLLADICE.ipch
+
+.vs/C\+\+Intro- Havardspel/v16/ipch/AutoPCH/6f791919194aa0b6/STATISTICSMANAGER.ipch
+
+.vs/C\+\+Intro- Havardspel/v16/ipch/AutoPCH/808a22c68224060/PLAYER.ipch
+
+.vs/C\+\+Intro- Havardspel/v16/ipch/AutoPCH/a7a4266d79eba7ae/ROULLETE.ipch
+
+.vs/C\+\+Intro- Havardspel/v16/ipch/AutoPCH/b7bb0cdda1ec1d7e/RUNTIMEMANAGER.ipch
+
+.vs/C\+\+Intro- Havardspel/v16/ipch/AutoPCH/d5a50aeaf8facfd0/ODDOREVEN.ipch
+
+.vs/C\+\+Intro- Havardspel/v16/ipch/AutoPCH/df32678d005bca32/HASARDSPEL.ipch
+
+.vs/C\+\+Intro- Havardspel/v16/ipch/AutoPCH/e64eaa79c320c280/ROLLADICELITE.ipch
+
+.vs/C\+\+Intro- Havardspel/v16/ipch/AutoPCH/e72843c376f3d28b/UTILITY.ipch
+
+.vs/C\+\+Intro- Havardspel/v16/ipch/AutoPCH/f86745ff28bb9db7/HASARDSPEL.ipch
+
+Debug/C\+\+Intro- Havardspel.Build.CppClean.log
+
+x64/Debug/C\+\+Intro- Havardspel.exe.recipe
+
+x64/Debug/C\+\+Intro- Havardspel.ilk
+
+x64/Debug/C\+\+Intro- Havardspel.log
+
+x64/Debug/C\+\+Intro- Havardspel.pdb
+
+x64/Debug/C\+\+Intro- Havardspel.vcxproj.FileListAbsolute.txt
+
+x64/Debug/C\+\+Intro.1d240e28.tlog/C\+\+Intro- Havardspel.lastbuildstate
+
+x64/Debug/C\+\+Intro.1d240e28.tlog/CL.command.1.tlog
+
+x64/Debug/C\+\+Intro.1d240e28.tlog/CL.read.1.tlog
+
+x64/Debug/C\+\+Intro.1d240e28.tlog/CL.write.1.tlog
+
+x64/Debug/C\+\+Intro.1d240e28.tlog/link.command.1.tlog
+
+x64/Debug/C\+\+Intro.1d240e28.tlog/link.read.1.tlog
+
+x64/Debug/C\+\+Intro.1d240e28.tlog/link.write.1.tlog
+
+x64/Debug/guessadoor.obj.enc
+
+x64/Debug/hasardspel.new.obj.enc
+
+x64/Debug/player.obj.enc
+
+x64/Debug/roullete.obj.enc
+
+x64/Debug/runtimemanager.new.obj.enc
+
+x64/Debug/vc142.idb
+
+x64/Debug/vc142.pdb
+
+x64/Release/C\+\+Intro- Havardspel.Build.CppClean.log
+
+x64/Release/C\+\+Intro- Havardspel.exe.recipe
+
+x64/Release/C\+\+Intro- Havardspel.iobj
+
+x64/Release/C\+\+Intro- Havardspel.ipdb
+
+x64/Release/C\+\+Intro- Havardspel.log
+
+x64/Release/C\+\+Intro- Havardspel.pdb
+
+x64/Release/C\+\+Intro- Havardspel.vcxproj.FileListAbsolute.txt
+
+x64/Release/C\+\+Intro.1d240e28.tlog/C\+\+Intro- Havardspel.lastbuildstate
+
+x64/Release/C\+\+Intro.1d240e28.tlog/C\+\+Intro- Havardspel.write.1u.tlog
+
+x64/Release/C\+\+Intro.1d240e28.tlog/CL.command.1.tlog
+
+x64/Release/C\+\+Intro.1d240e28.tlog/CL.read.1.tlog
+
+x64/Release/C\+\+Intro.1d240e28.tlog/CL.write.1.tlog
+
+x64/Release/C\+\+Intro.1d240e28.tlog/link.command.1.tlog
+
+x64/Release/C\+\+Intro.1d240e28.tlog/link.read.1.tlog
+
+x64/Release/C\+\+Intro.1d240e28.tlog/link.write.1.tlog
+
+x64/Release/vc142.pdb
