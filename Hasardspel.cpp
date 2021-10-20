@@ -143,8 +143,9 @@ int ParseCommand(int aMinInputValue, int aMaxInputValue)
 
 int GenerateResult()
 {
-	int firstRoll = rand() % 12 + 1;
-	return firstRoll;
+	int firstRoll = rand() % 6 + 1;
+	int secondRoll = rand() % 6 + 1;
+	return firstRoll + secondRoll;
 }
 
 int main()
