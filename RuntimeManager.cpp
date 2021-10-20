@@ -86,30 +86,7 @@ namespace RuntimeManagement
 
 	}
 
-	bool rollADice_firstPlaythrough = true;
-	bool oddOrEven_firstPlaythrough = true;
-
-	bool isCurrentUserNewToGameMode()
-	{
-		bool result = false;
-		switch (currentGameMode)
-		{
-			case GameMode::RollADice:
-				{
-					result = rollADice_firstPlaythrough;
-					rollADice_firstPlaythrough = false;
-				}
-
-			case GameMode::OddOrEven:
-				{
-					result = oddOrEven_firstPlaythrough;
-					oddOrEven_firstPlaythrough = false;
-				}
-				
-		}
-
-		return result;
-	}
+	
 
 
 

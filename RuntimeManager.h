@@ -36,7 +36,7 @@ namespace RuntimeManagement
 	int RandomNumber(int aMinNumber, int aMaxNumber);
 	void OnGameModeSelection();
 	void OnGameEndMenu(std::string aMenuMessage);
-	bool isCurrentUserNewToGameMode();
+	
 
 
 

@@ -93,34 +93,28 @@ void Engine::OnGameRuntime()
 
 						if (game::currentGameMode != game::GameMode::None)
 						{
-							if (!game::isCurrentUserNewToGameMode())
-							{
-								std::cout << "What do you want to do?" << std::endl;
-								std::cout << "[Play|See Tutorial|Exit] ";
-								std::string menuSelectionOptions[] = { "play","p","see tutorial", "tutorial", "exit", "quit" };
-								std::string input = User::GetUserInput(menuSelectionOptions, 6);
 
-								if (input == "see tutorial" || input == "tutorial")
-								{
-									game::currentGameState = game::GameState::Tutorial;
-									break;
-								}
-								else if (input == "exit" || input == "quit")
-								{
-									game::currentGameState = game::GameState::Exit;
-									break;
-								}
-								else if (input == "NaN")
-								{
-									game::currentGameState = game::GameState::Error;
-									break;
-								}
-							}
-							else
+							std::cout << "What do you want to do?" << std::endl;
+							std::cout << "[Play|See Tutorial|Exit] ";
+							std::string menuSelectionOptions[] = { "play","p","see tutorial", "tutorial", "exit", "quit" };
+							std::string input = User::GetUserInput(menuSelectionOptions, 6);
+
+							if (input == "see tutorial" || input == "tutorial")
 							{
 								game::currentGameState = game::GameState::Tutorial;
 								break;
 							}
+							else if (input == "exit" || input == "quit")
+							{
+								game::currentGameState = game::GameState::Exit;
+								break;
+							}
+							else if (input == "NaN")
+							{
+								game::currentGameState = game::GameState::Error;
+								break;
+							}
+
 						}
 
 						switch (game::currentGameMode)

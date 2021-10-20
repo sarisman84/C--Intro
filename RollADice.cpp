@@ -19,14 +19,14 @@ namespace RollADice
 
 
 		system("CLS");
-		std::cout << "Write down a number between 1 and 12: ";
-		game::errorMessage = "Invalid number (number is not between 1 and 12). Try again!";
+		std::cout << "Write down a number between 2 and 12: ";
+		game::errorMessage = "Invalid number (number is not between 2 and 12). Try again!";
 		int userInputValue = User::GetConstrainedNumericalUserInput(1, 12);
 		int generatedValue;
 
 		if (userInputValue == -2)
 		{
-			game::errorMessage = "Inputed value is not between 1 and 12! Try again!";
+			game::errorMessage = "Inputed value is not between 2 and 12! Try again!";
 			game::currentGameState = static_cast<game::GameState>(userInputValue);
 			system("CLS");
 			return;
