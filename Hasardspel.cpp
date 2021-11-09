@@ -99,50 +99,44 @@ void Engine::OnGameRuntime()
 
 						if (game::currentGameMode != game::GameMode::None)
 						{
-							if (!game::isCurrentUserNewToGameMode())
+
+							std::cout << "What do you want to do?" << std::endl;
+							std::cout << "[Play|See Tutorial|Menu|Exit] ";
+
+							const std::string playButton = "play";
+							const std::string playButtonShortcut = "p";
+							const std::string tutorialButton = "see tutorial";
+							const std::string tutorialButtonShortcut = "tutorial";
+							const std::string exitButton = "quit";
+							const std::string exitButtonAlt = "exit";
+							const std::string backButton = "menu";
+
+							const int menuSelectionOptionsSize = 7;
+
+							std::string menuSelectionOptions[] = { playButton,playButtonShortcut,tutorialButton, tutorialButtonShortcut, exitButton, exitButtonAlt, backButton };
+							std::string input = User::GetUserInput(menuSelectionOptions, menuSelectionOptionsSize);
+							if (input == backButton)
 							{
-								std::cout << "What do you want to do?" << std::endl;
-								std::cout << "[Play|See Tutorial|Menu|Exit] ";
-
-								const std::string playButton = "play";
-								const std::string playButtonShortcut = "p";
-								const std::string tutorialButton = "see tutorial";
-								const std::string tutorialButtonShortcut = "tutorial";
-								const std::string exitButton = "quit";
-								const std::string exitButtonAlt = "exit";
-								const std::string backButton = "menu";
-
-								const int menuSelectionOptionsSize = 7;
-
-								std::string menuSelectionOptions[] = { playButton,playButtonShortcut,tutorialButton, tutorialButtonShortcut, exitButton, exitButtonAlt, backButton };
-								std::string input = User::GetUserInput(menuSelectionOptions, menuSelectionOptionsSize);
-								if (input == backButton)
-								{
-									game::currentGameMode = game::GameMode::None;
-									game::currentGameState = game::GameState::Menu;
-									break;
-								}
-								else if (input == tutorialButton || input == tutorialButtonShortcut)
-								{
-									game::currentGameState = game::GameState::Tutorial;
-									break;
-								}
-								else if (input == exitButton || input == exitButtonAlt)
-								{
-									game::currentGameState = game::GameState::Exit;
-									break;
-								}
-								else if (input == User::invalidInput)
-								{
-									game::currentGameState = game::GameState::Error;
-									break;
-								}
+								game::currentGameMode = game::GameMode::None;
+								game::currentGameState = game::GameState::Menu;
+								break;
 							}
-							else
+							else if (input == tutorialButton || input == tutorialButtonShortcut)
 							{
 								game::currentGameState = game::GameState::Tutorial;
 								break;
 							}
+							else if (input == exitButton || input == exitButtonAlt)
+							{
+								game::currentGameState = game::GameState::Exit;
+								break;
+							}
+							else if (input == User::invalidInput)
+							{
+								game::currentGameState = game::GameState::Error;
+								break;
+							}
+
 						}
 
 						switch (game::currentGameMode)
@@ -207,6 +201,7 @@ void Engine::OnGameRuntime()
 					}
 				case game::GameState::Won:
 					{
+						game::errorMessage = "Invalid input detected, try again!";
 						game::previousGameState = game::currentGameState;
 
 						User::hasUserWon = true;
@@ -219,6 +214,7 @@ void Engine::OnGameRuntime()
 					}
 				case game::GameState::Lost:
 					{
+						game::errorMessage = "Invalid input detected, try again!";
 						game::previousGameState = game::currentGameState;
 
 						User::hasUserWon = false;

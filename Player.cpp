@@ -60,9 +60,12 @@ namespace User
 		}
 		else
 		{
+			std::cin.clear();
+			std::cin.ignore(10000, '\n');
 			game::errorMessage = "Invalid bet amount! Try again!";
-			game::currentGameState = game::GameState::Error;
-			return false;
+			std::cout << game::errorMessage << std::endl;
+			system("pause");
+			return TrySetABet(aCurrentGameMode);
 		}
 		return false;
 	}
